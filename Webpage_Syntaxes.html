@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeetCode Syntax Reference — C · C++ · Python · Java</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #e8e5df;
+  --border-strong: #d0ccc4;
+  --text: #1a1814;
+  --text-muted: #706a60;
+  --text-faint: #a09890;
+  --code-bg: #1e1c1a;
+  --code-text: #e8e0d5;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.10), 0 12px 32px rgba(0,0,0,0.08);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --c-lang: #1a1814;
+  --c-lang-bg: #1a1814;
+  --c-lang-light: #f0ede8;
+
+  --c-color: #00599C;
+  --cpp-color: #00427A;
+  --py-color: #3776AB;
+  --java-color: #C97A00;
+
+  --beginner: #16a34a;
+  --beginner-bg: #f0fdf4;
+  --intermediate: #2563eb;
+  --intermediate-bg: #eff6ff;
+  --advanced: #dc2626;
+  --advanced-bg: #fef2f2;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.hero {
+  background: var(--code-bg);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(0,89,156,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 50%, rgba(201,122,0,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  padding: 5px 14px; border-radius: 20px; font-size: 0.72rem;
+  font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); margin-bottom: 1.2rem;
+}
+.hero-tag span { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: inline-block; }
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800;
+  color: #ffffff; letter-spacing: -1px; line-height: 1.1;
+}
+.hero h1 em { font-style: normal; color: #facc15; }
+.hero p { color: rgba(255,255,255,0.5); margin-top: 0.75rem; font-size: 1rem; font-weight: 300; }
+.lang-pills {
+  display: flex; justify-content: center; gap: 10px;
+  margin-top: 1.8rem; flex-wrap: wrap;
+}
+.lang-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.75);
+  font-family: 'JetBrains Mono', monospace;
+}
+.lang-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+.lang-pill.c .dot { background: #5BB8FF; }
+.lang-pill.cpp .dot { background: #7ECFFF; }
+.lang-pill.py .dot { background: #FFD43B; }
+.lang-pill.java .dot { background: #FFAB40; }
+
+.stats-row {
+  display: flex; justify-content: center; gap: 2rem;
+  margin-top: 2rem; flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat-num { font-size: 1.8rem; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; }
+.stat-label { font-size: 0.72rem; font-weight: 500; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+
+/* ── STICKY TOOLBAR ── */
+.toolbar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 2rem; position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.toolbar-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: stretch; gap: 0; flex-wrap: wrap;
+}
+
+/* Language tabs */
+.lang-tabs { display: flex; gap: 0; }
+.lang-tab {
+  padding: 0 20px; height: 52px; display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  border: none; background: none; color: var(--text-muted);
+  border-bottom: 2px solid transparent; transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+  position: relative;
+}
+.lang-tab:hover { color: var(--text); }
+.lang-tab.active { color: var(--text); border-bottom-color: var(--active-color, #1a1814); }
+.lang-tab .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+.lang-tab[data-lang="all"] .lang-dot { background: linear-gradient(135deg, #5BB8FF, #FFD43B); }
+.lang-tab[data-lang="c"] { --active-color: #00599C; }
+.lang-tab[data-lang="c"] .lang-dot { background: #00599C; }
+.lang-tab[data-lang="cpp"] { --active-color: #00427A; }
+.lang-tab[data-lang="cpp"] .lang-dot { background: #00427A; }
+.lang-tab[data-lang="py"] { --active-color: #3776AB; }
+.lang-tab[data-lang="py"] .lang-dot { background: #f5c518; }
+.lang-tab[data-lang="java"] { --active-color: #C97A00; }
+.lang-tab[data-lang="java"] .lang-dot { background: #C97A00; }
+
+.divider-v { width: 1px; background: var(--border); margin: 10px 0; }
+
+/* Level filters */
+.level-filters { display: flex; gap: 6px; align-items: center; padding: 0 16px; }
+.lvl-btn {
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid var(--border); background: transparent;
+  font-size: 0.76rem; font-weight: 600; cursor: pointer;
+  color: var(--text-muted); transition: all 0.18s;
+  font-family: 'Outfit', sans-serif; letter-spacing: 0.2px;
+}
+.lvl-btn:hover { border-color: var(--border-strong); color: var(--text); }
+.lvl-btn.active.all { background: var(--text); border-color: var(--text); color: #fff; }
+.lvl-btn.active.beginner { background: var(--beginner); border-color: var(--beginner); color: #fff; }
+.lvl-btn.active.intermediate { background: var(--intermediate); border-color: var(--intermediate); color: #fff; }
+.lvl-btn.active.advanced { background: var(--advanced); border-color: var(--advanced); color: #fff; }
+
+/* Search */
+.search-area { margin-left: auto; display: flex; align-items: center; padding: 0 0 0 12px; }
+.search-wrap {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 24px; padding: 6px 14px;
+}
+.search-wrap svg { opacity: 0.4; flex-shrink: 0; }
+.search-wrap input {
+  border: none; background: transparent; outline: none;
+  font-family: 'Outfit', sans-serif; font-size: 0.82rem;
+  color: var(--text); width: 180px;
+}
+.search-wrap input::placeholder { color: var(--text-faint); }
+
+/* ── MAIN CONTENT ── */
+main { max-width: 1280px; margin: 0 auto; padding: 2rem; }
+
+.results-meta {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.results-count { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+.active-lang-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 12px; border-radius: 16px;
+  font-size: 0.75rem; font-weight: 600;
+}
+
+/* Section header */
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin: 2rem 0 1rem;
+}
+.section-header h2 {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.section-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.section-dot.beginner { background: var(--beginner); }
+.section-dot.intermediate { background: var(--intermediate); }
+.section-dot.advanced { background: var(--advanced); }
+.section-count {
+  font-size: 0.7rem; font-weight: 600; padding: 2px 8px;
+  border-radius: 12px; background: var(--bg);
+  border: 1px solid var(--border); color: var(--text-faint);
+}
+
+/* Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 14px; }
+
+/* Card */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); transition: box-shadow 0.22s, transform 0.22s, border-color 0.22s;
+  animation: fadeUp 0.35s ease both;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover); transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-top {
+  padding: 14px 16px 10px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+}
+.card-meta { flex: 1; min-width: 0; }
+.card-name { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.card-where { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; font-weight: 400; }
+.card-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+
+.level-badge {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.4px;
+  padding: 3px 9px; border-radius: 10px; text-transform: uppercase;
+}
+.level-badge.beginner { background: var(--beginner-bg); color: var(--beginner); }
+.level-badge.intermediate { background: var(--intermediate-bg); color: var(--intermediate); }
+.level-badge.advanced { background: var(--advanced-bg); color: var(--advanced); }
+
+.lang-badge {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3px;
+  padding: 2px 8px; border-radius: 8px; font-family: 'JetBrains Mono', monospace;
+}
+.lang-badge.c { background: #e8f2fc; color: #00599C; }
+.lang-badge.cpp { background: #e6f0f8; color: #00427A; }
+.lang-badge.py { background: #fffbeb; color: #92650a; }
+.lang-badge.java { background: #fff7ed; color: #C97A00; }
+
+.card-divider { height: 1px; background: var(--border); margin: 0 16px; }
+
+.code-section { padding: 10px 16px 14px; }
+.code-label {
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px;
+}
+pre {
+  background: var(--code-bg); border-radius: var(--radius-sm);
+  padding: 11px 13px; overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.73rem;
+  line-height: 1.65; color: var(--code-text);
+}
+
+/* Syntax highlighting */
+.kw { color: #c792ea; }
+.ty { color: #80cbc4; }
+.st { color: #c3e88d; }
+.cm { color: #546e7a; font-style: italic; }
+.nm { color: #f78c6c; }
+.fn { color: #82aaff; }
+.op { color: #89ddff; }
+.pp { color: #ffcb6b; }
+
+/* No results */
+.no-results {
+  grid-column: 1/-1; text-align: center; padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+.no-results h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+/* Footer */
+footer {
+  background: var(--code-bg); color: rgba(255,255,255,0.35);
+  text-align: center; padding: 2rem; font-size: 0.8rem; font-weight: 400;
+  margin-top: 4rem;
+}
+footer strong { color: rgba(255,255,255,0.7); }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .toolbar-inner { flex-direction: column; }
+  .lang-tabs { overflow-x: auto; }
+  .search-area { padding: 8px 0; width: 100%; }
+  .search-wrap { width: 100%; }
+  .search-wrap input { width: 100%; }
+  .grid { grid-template-columns: 1fr; }
+  .stats-row { gap: 1.2rem; }
+  .level-filters { flex-wrap: wrap; }
+}
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><span></span> Open Source Reference</div>
+    <h1>LeetCode Syntax <em>Cheatsheet</em></h1>
+    <p>Everything you need — from Hello World to Dynamic Programming</p>
+    <div class="lang-pills">
+      <div class="lang-pill c"><div class="dot"></div>C Language</div>
+      <div class="lang-pill cpp"><div class="dot"></div>C++</div>
+      <div class="lang-pill py"><div class="dot"></div>Python 3</div>
+      <div class="lang-pill java"><div class="dot"></div>Java</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num" id="total-count">80+</div><div class="stat-label">Syntaxes</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Languages</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Levels</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="lang-tabs">
+      <button class="lang-tab active" data-lang="all" onclick="setLang('all',this)"><div class="lang-dot"></div>All</button>
+      <button class="lang-tab" data-lang="c" onclick="setLang('c',this)"><div class="lang-dot"></div>C</button>
+      <button class="lang-tab" data-lang="cpp" onclick="setLang('cpp',this)"><div class="lang-dot"></div>C++</button>
+      <button class="lang-tab" data-lang="py" onclick="setLang('py',this)"><div class="lang-dot"></div>Python</button>
+      <button class="lang-tab" data-lang="java" onclick="setLang('java',this)"><div class="lang-dot"></div>Java</button>
+    </div>
+    <div class="divider-v"></div>
+    <div class="level-filters">
+      <button class="lvl-btn active all" onclick="setLevel('all',this)">All Levels</button>
+      <button class="lvl-btn" onclick="setLevel('beginner',this)">Beginner</button>
+      <button class="lvl-btn" onclick="setLevel('intermediate',this)">Intermediate</button>
+      <button class="lvl-btn" onclick="setLevel('advanced',this)">Advanced</button>
+    </div>
+    <div class="search-area">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search syntax..." oninput="doSearch()" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="results-meta">
+    <span class="results-count" id="resultsCount">Showing all syntaxes</span>
+  </div>
+  <div id="content"></div>
+</main>
+
+<footer>
+  <strong>LeetCode Syntax Reference</strong> · C · C++ · Python · Java · Built for competitive programmers
+</footer>
+
+<script>
+const DB = [
+
+  // ════════════════════ C ════════════════════
+  { lang:'c', level:'beginner', name:'Variable Declaration', where:'Store integers, floats, chars', 
+    syntax:`<span class="ty">int</span>    x = <span class="nm">5</span>;
+<span class="ty">float</span>  f = <span class="nm">3.14</span>;
+<span class="ty">char</span>   c = <span class="st">'A'</span>;
+<span class="ty">double</span> d = <span class="nm">2.718</span>;`,
+    example:`<span class="ty">int</span> count = <span class="nm">0</span>, sum = <span class="nm">0</span>;` },
+
+  { lang:'c', level:'beginner', name:'printf / scanf', where:'Console input and output',
+    syntax:`<span class="fn">printf</span>(<span class="st">"%d %s\n"</span>, num, str);
+<span class="fn">scanf</span>(<span class="st">"%d"</span>, &num);
+<span class="fn">scanf</span>(<span class="st">"%s"</span>, str);`,
+    example:`<span class="fn">printf</span>(<span class="st">"Sum = %d\n"</span>, a + b);` },
+
+  { lang:'c', level:'beginner', name:'If / Else', where:'Conditional branching',
+    syntax:`<span class="kw">if</span> (x > <span class="nm">0</span>) {
+  <span class="cm">// positive</span>
+} <span class="kw">else if</span> (x < <span class="nm">0</span>) {
+  <span class="cm">// negative</span>
+} <span class="kw">else</span> {
+  <span class="cm">// zero</span>
+}`,
+    example:`<span class="kw">if</span> (arr[i] == target) <span class="kw">return</span> i;` },
+
+  { lang:'c', level:'beginner', name:'For / While Loop', where:'Iteration and repetition',
+    syntax:`<span class="kw">for</span> (<span class="ty">int</span> i = <span class="nm">0</span>; i < n; i++) { }
+<span class="kw">while</span> (left < right) { left++; right--; }
+<span class="kw">do</span> { } <span class="kw">while</span> (condition);`,
+    example:`<span class="kw">for</span> (<span class="ty">int</span> i = <span class="nm">0</span>; i < n; i++) sum += arr[i];` },
+
+  { lang:'c', level:'beginner', name:'Array', where:'Fixed-size sequential storage',
+    syntax:`<span class="ty">int</span> arr[<span class="nm">5</span>] = {<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">5</span>};
+<span class="ty">int</span> mat[<span class="nm">3</span>][<span class="nm">3</span>] = {<span class="nm">0</span>};
+<span class="ty">int</span> n = <span class="kw">sizeof</span>(arr)/<span class="kw">sizeof</span>(arr[<span class="nm">0</span>]);`,
+    example:`<span class="ty">int</span> dp[<span class="nm">1001</span>] = {<span class="nm">0</span>};` },
+
+  { lang:'c', level:'beginner', name:'Function', where:'Reusable logic blocks',
+    syntax:`<span class="ty">int</span> <span class="fn">add</span>(<span class="ty">int</span> a, <span class="ty">int</span> b) {
+  <span class="kw">return</span> a + b;
+}
+<span class="ty">void</span> <span class="fn">print</span>(<span class="ty">int</span> x) { <span class="fn">printf</span>(<span class="st">"%d"</span>, x); }`,
+    example:`<span class="ty">int</span> <span class="fn">max</span>(<span class="ty">int</span> a, <span class="ty">int</span> b) { <span class="kw">return</span> a>b?a:b; }` },
+
+  { lang:'c', level:'intermediate', name:'Pointers', where:'Memory addresses, pass-by-reference',
+    syntax:`<span class="ty">int</span>  x = <span class="nm">10</span>;
+<span class="ty">int</span> *p = &x;   <span class="cm">// address of x</span>
+*p = <span class="nm">20</span>;       <span class="cm">// dereference: x = 20</span>
+<span class="ty">int</span> **pp = &p; <span class="cm">// pointer to pointer</span>`,
+    example:`<span class="kw">void</span> <span class="fn">swap</span>(<span class="ty">int</span>*a,<span class="ty">int</span>*b){<span class="ty">int</span> t=*a;*a=*b;*b=t;}` },
+
+  { lang:'c', level:'intermediate', name:'Strings (char array)', where:'String manipulation in C',
+    syntax:`<span class="ty">char</span> s[<span class="nm">100</span>] = <span class="st">"hello"</span>;
+<span class="fn">strlen</span>(s);       <span class="fn">strcpy</span>(dst, src);
+<span class="fn">strcmp</span>(a, b);    <span class="fn">strcat</span>(s, t);
+<span class="fn">strchr</span>(s, <span class="st">'c'</span>); <span class="fn">sprintf</span>(buf, <span class="st">"%d"</span>, n);`,
+    example:`<span class="ty">int</span> len = <span class="fn">strlen</span>(s);` },
+
+  { lang:'c', level:'intermediate', name:'Struct', where:'Group related data',
+    syntax:`<span class="kw">struct</span> <span class="ty">Node</span> {
+  <span class="ty">int</span> val;
+  <span class="kw">struct</span> <span class="ty">Node</span> *next;
+};
+<span class="kw">struct</span> <span class="ty">Node</span> *n = <span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="kw">struct</span> <span class="ty">Node</span>));`,
+    example:`<span class="kw">typedef struct</span> { <span class="ty">int</span> x, y; } <span class="ty">Point</span>;` },
+
+  { lang:'c', level:'intermediate', name:'Dynamic Memory', where:'Heap allocation (malloc/free)',
+    syntax:`<span class="ty">int</span> *arr = (<span class="ty">int</span>*)<span class="fn">malloc</span>(n * <span class="kw">sizeof</span>(<span class="ty">int</span>));
+<span class="ty">int</span> *arr = (<span class="ty">int</span>*)<span class="fn">calloc</span>(n, <span class="kw">sizeof</span>(<span class="ty">int</span>));
+arr = <span class="fn">realloc</span>(arr, newSize);
+<span class="fn">free</span>(arr);`,
+    example:`<span class="ty">int</span> *dp = <span class="fn">calloc</span>(n+<span class="nm">1</span>, <span class="kw">sizeof</span>(<span class="ty">int</span>));` },
+
+  { lang:'c', level:'intermediate', name:'Recursion', where:'Divide & conquer, tree traversal',
+    syntax:`<span class="ty">int</span> <span class="fn">fib</span>(<span class="ty">int</span> n) {
+  <span class="kw">if</span> (n <= <span class="nm">1</span>) <span class="kw">return</span> n;
+  <span class="kw">return</span> <span class="fn">fib</span>(n-<span class="nm">1</span>) + <span class="fn">fib</span>(n-<span class="nm">2</span>);
+}`,
+    example:`<span class="kw">if</span> (!root) <span class="kw">return</span> <span class="nm">0</span>; <span class="cm">// base case</span>` },
+
+  { lang:'c', level:'advanced', name:'Bitwise Operations', where:'XOR tricks, flags, bit manipulation',
+    syntax:`n & <span class="nm">1</span>        <span class="cm">// check if odd</span>
+n & (n-<span class="nm">1</span>)    <span class="cm">// clear lowest set bit</span>
+n ^ n = <span class="nm">0</span>     <span class="cm">// XOR self = 0</span>
+<span class="nm">1</span> << k        <span class="cm">// 2^k</span>
+~n            <span class="cm">// bitwise NOT</span>`,
+    example:`<span class="kw">if</span> (n & (n-<span class="nm">1</span>)) <span class="cm">// not power of 2</span>` },
+
+  { lang:'c', level:'advanced', name:'qsort', where:'Sort arrays with custom comparator',
+    syntax:`<span class="ty">int</span> <span class="fn">cmp</span>(<span class="kw">const void</span>*a, <span class="kw">const void</span>*b){
+  <span class="kw">return</span> *(<span class="ty">int</span>*)a - *(<span class="ty">int</span>*)b;
+}
+<span class="fn">qsort</span>(arr, n, <span class="kw">sizeof</span>(<span class="ty">int</span>), cmp);`,
+    example:`<span class="fn">qsort</span>(arr, n, <span class="kw">sizeof</span>(<span class="ty">int</span>), cmp);` },
+
+  { lang:'c', level:'advanced', name:'Preprocessor Macros', where:'Constants, inline functions',
+    syntax:`<span class="pp">#define</span> MAX 1000000
+<span class="pp">#define</span> MOD 1000000007
+<span class="pp">#define</span> max(a,b) ((a)>(b)?(a):(b))
+<span class="pp">#define</span> min(a,b) ((a)<(b)?(a):(b))`,
+    example:`<span class="pp">#define</span> INF 0x3f3f3f3f` },
+
+  // ════════════════════ C++ ════════════════════
+  { lang:'cpp', level:'beginner', name:'Variables & Auto', where:'Type inference, modern C++',
+    syntax:`<span class="ty">int</span> x = <span class="nm">5</span>;
+<span class="kw">auto</span> y = <span class="nm">3.14</span>;       <span class="cm">// double</span>
+<span class="kw">const</span> <span class="ty">int</span> N = <span class="nm">100</span>;
+<span class="kw">auto</span> [a, b] = make_pair(<span class="nm">1</span>,<span class="nm">2</span>); <span class="cm">// C++17</span>`,
+    example:`<span class="kw">auto</span> it = map.begin();` },
+
+  { lang:'cpp', level:'beginner', name:'cin / cout', where:'Console I/O',
+    syntax:`<span class="kw">using namespace</span> std;
+cin >> x >> y;
+cout << <span class="st">"ans = "</span> << res << <span class="st">'\n'</span>;
+cout << fixed << setprecision(<span class="nm">2</span>) << f;`,
+    example:`<span class="ty">int</span> n; cin >> n;` },
+
+  { lang:'cpp', level:'beginner', name:'For / Range-for Loop', where:'Iteration over ranges & containers',
+    syntax:`<span class="kw">for</span> (<span class="ty">int</span> i=<span class="nm">0</span>; i<n; i++) { }
+<span class="kw">for</span> (<span class="kw">auto</span>& x : vec) { }     <span class="cm">// range-for</span>
+<span class="kw">for</span> (<span class="kw">auto</span> [k,v] : map) { }  <span class="cm">// structured bind</span>`,
+    example:`<span class="kw">for</span> (<span class="kw">auto</span>& num : nums) sum += num;` },
+
+  { lang:'cpp', level:'beginner', name:'Vector', where:'Dynamic array — replaces C arrays',
+    syntax:`vector<<span class="ty">int</span>> v = {<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>};
+v.push_back(x);  v.pop_back();
+v.size();  v[i];  v.front(); v.back();
+vector<vector<<span class="ty">int</span>>> mat(m, vector<<span class="ty">int</span>>(n,<span class="nm">0</span>));`,
+    example:`vector<<span class="ty">int</span>> dp(n+<span class="nm">1</span>, <span class="nm">0</span>);` },
+
+  { lang:'cpp', level:'beginner', name:'String', where:'String manipulation',
+    syntax:`string s = <span class="st">"hello"</span>;
+s.length();  s[i];  s.substr(l,len);
+s.find(<span class="st">"sub"</span>);  s += <span class="st">"world"</span>;
+stoi(s);  to_string(n);`,
+    example:`<span class="kw">for</span> (<span class="ty">char</span> c : s) freq[c-<span class="st">'a'</span>]++;` },
+
+  { lang:'cpp', level:'intermediate', name:'unordered_map', where:'Hash map — O(1) lookup',
+    syntax:`unordered_map<<span class="ty">int</span>,<span class="ty">int</span>> mp;
+mp[key]++;           <span class="cm">// insert/update</span>
+mp.count(key);       <span class="cm">// 1 if exists</span>
+mp.find(key) != mp.end();
+mp.erase(key);`,
+    example:`mp[num]++; <span class="kw">if</span>(mp[t-num]) <span class="kw">return</span> <span class="kw">true</span>;` },
+
+  { lang:'cpp', level:'intermediate', name:'set / unordered_set', where:'Unique elements, O(log n) / O(1)',
+    syntax:`set<<span class="ty">int</span>> s;
+s.insert(x);  s.erase(x);
+s.count(x);   <span class="cm">// 1 if present</span>
+s.lower_bound(x); s.upper_bound(x);`,
+    example:`<span class="kw">if</span> (seen.count(node)) <span class="kw">return true</span>;` },
+
+  { lang:'cpp', level:'intermediate', name:'Stack & Queue', where:'DFS / BFS patterns',
+    syntax:`stack<<span class="ty">int</span>> stk;
+stk.push(x); stk.pop(); stk.top();
+queue<<span class="ty">int</span>> q;
+q.push(x); q.pop(); q.front();`,
+    example:`<span class="kw">while</span>(!stk.empty()){ <span class="ty">int</span> t=stk.top(); stk.pop(); }` },
+
+  { lang:'cpp', level:'intermediate', name:'Sorting', where:'Sort arrays, vectors, custom order',
+    syntax:`sort(arr, arr+n);
+sort(v.begin(), v.end());
+sort(v.begin(), v.end(), greater<<span class="ty">int</span>>());
+sort(v.begin(), v.end(), [](<span class="kw">auto</span> a, <span class="kw">auto</span> b){ <span class="kw">return</span> a[<span class="nm">0</span>] < b[<span class="nm">0</span>]; });`,
+    example:`sort(intervals.begin(), intervals.end());` },
+
+  { lang:'cpp', level:'intermediate', name:'pair & tuple', where:'Return multiple values, graph edges',
+    syntax:`pair<<span class="ty">int</span>,<span class="ty">int</span>> p = {<span class="nm">1</span>,<span class="nm">2</span>};
+p.first; p.second;
+<span class="kw">auto</span> [x,y] = p;           <span class="cm">// C++17</span>
+tuple<<span class="ty">int</span>,<span class="ty">int</span>,<span class="ty">int</span>> t = {<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>};
+get<<span class="nm">0</span>>(t);`,
+    example:`pq.push({dist, node});` },
+
+  { lang:'cpp', level:'advanced', name:'priority_queue', where:'Min/max heap — Dijkstra, K-th largest',
+    syntax:`priority_queue<<span class="ty">int</span>> maxH;  <span class="cm">// max by default</span>
+priority_queue<<span class="ty">int</span>, vector<<span class="ty">int</span>>, greater<<span class="ty">int</span>>> minH;
+pq.push(x); pq.pop(); pq.top();`,
+    example:`minH.push({dist, node}); <span class="kw">auto</span> [d,u] = minH.top();` },
+
+  { lang:'cpp', level:'advanced', name:'Lambda Functions', where:'Inline comparators, callbacks',
+    syntax:`<span class="kw">auto</span> add = [](<span class="ty">int</span> a, <span class="ty">int</span> b){ <span class="kw">return</span> a+b; };
+<span class="kw">auto</span> cmp = [](<span class="ty">int</span> a, <span class="ty">int</span> b){ <span class="kw">return</span> a > b; };
+sort(v.begin(), v.end(),
+  [](<span class="kw">auto</span>& a, <span class="kw">auto</span>& b){ <span class="kw">return</span> a[<span class="nm">1</span>] < b[<span class="nm">1</span>]; });`,
+    example:`sort(jobs.begin(), jobs.end(), [](<span class="kw">auto</span>&a,<span class="kw">auto</span>&b){<span class="kw">return</span> a[<span class="nm">1</span>]<b[<span class="nm">1</span>];});` },
+
+  { lang:'cpp', level:'advanced', name:'map (ordered)', where:'TreeMap, sorted keys, floor/ceil ops',
+    syntax:`map<<span class="ty">int</span>,<span class="ty">int</span>> m;
+m[k] = v;  m.count(k);
+m.lower_bound(x);  <span class="cm">// first key >= x</span>
+m.upper_bound(x);  <span class="cm">// first key > x</span>
+m.begin(); m.rbegin();`,
+    example:`<span class="kw">auto</span> it = m.lower_bound(target);` },
+
+  { lang:'cpp', level:'advanced', name:'deque & monotonic', where:'Sliding window max/min',
+    syntax:`deque<<span class="ty">int</span>> dq;
+dq.push_front(x); dq.push_back(x);
+dq.pop_front();   dq.pop_back();
+dq.front();       dq.back();`,
+    example:`<span class="kw">while</span>(!dq.empty()&&dq.back()<nums[i]) dq.pop_back();` },
+
+  // ════════════════════ PYTHON ════════════════════
+  { lang:'py', level:'beginner', name:'Variables & Types', where:'Dynamic typing, no declaration needed',
+    syntax:`x = <span class="nm">5</span>
+s = <span class="st">"hello"</span>
+lst = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]
+a, b = <span class="nm">1</span>, <span class="nm">2</span>     <span class="cm"># tuple unpack</span>
+a, b = b, a   <span class="cm"># swap</span>`,
+    example:`n, m = map(<span class="ty">int</span>, <span class="fn">input</span>().split())` },
+
+  { lang:'py', level:'beginner', name:'print / input', where:'Console I/O',
+    syntax:`<span class="fn">print</span>(x, y, sep=<span class="st">", "</span>, end=<span class="st">""</span>)
+n = <span class="ty">int</span>(<span class="fn">input</span>())
+a, b = map(<span class="ty">int</span>, <span class="fn">input</span>().split())
+lst = <span class="ty">list</span>(map(<span class="ty">int</span>, <span class="fn">input</span>().split()))`,
+    example:`<span class="fn">print</span>(<span class="st">f"ans = {res}"</span>)` },
+
+  { lang:'py', level:'beginner', name:'If / Elif / Else', where:'Conditional branching',
+    syntax:`<span class="kw">if</span> x > <span class="nm">0</span>:
+    <span class="fn">print</span>(<span class="st">"pos"</span>)
+<span class="kw">elif</span> x < <span class="nm">0</span>:
+    <span class="fn">print</span>(<span class="st">"neg"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">"zero"</span>)`,
+    example:`<span class="kw">return</span> i <span class="kw">if</span> nums[i] == t <span class="kw">else</span> -<span class="nm">1</span>` },
+
+  { lang:'py', level:'beginner', name:'Loops', where:'For / while iteration',
+    syntax:`<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n): ...
+<span class="kw">for</span> i, v <span class="kw">in</span> <span class="fn">enumerate</span>(lst): ...
+<span class="kw">for</span> a, b <span class="kw">in</span> <span class="fn">zip</span>(l1, l2): ...
+<span class="kw">while</span> left < right: ...`,
+    example:`<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n-<span class="nm">1</span>, -<span class="nm">1</span>, -<span class="nm">1</span>): <span class="cm"># reverse</span>` },
+
+  { lang:'py', level:'beginner', name:'List', where:'Dynamic array — core data structure',
+    syntax:`lst = []; lst.append(x); lst.pop()
+lst.insert(i, x); lst.remove(x)
+lst.sort(); lst.reverse()
+lst[<span class="nm">1</span>:<span class="nm">4</span>]; lst[::<span class="nm">-1</span>]  <span class="cm"># slicing</span>`,
+    example:`dp = [<span class="nm">0</span>] * (n+<span class="nm">1</span>)` },
+
+  { lang:'py', level:'beginner', name:'Function / Default Args', where:'Reusable logic',
+    syntax:`<span class="kw">def</span> <span class="fn">solve</span>(nums, target=<span class="nm">0</span>):
+    <span class="kw">return</span> target <span class="kw">in</span> nums
+
+<span class="kw">def</span> <span class="fn">dfs</span>(node, visited=<span class="kw">None</span>):
+    <span class="kw">if</span> visited <span class="kw">is None</span>: visited = <span class="fn">set</span>()`,
+    example:`<span class="kw">def</span> <span class="fn">helper</span>(i, path, res): ...` },
+
+  { lang:'py', level:'intermediate', name:'Dictionary', where:'Hash map — two-sum, frequency count',
+    syntax:`d = {}; d[k] = v
+d.get(k, default)
+d[k] = d.get(k, <span class="nm">0</span>) + <span class="nm">1</span>
+k <span class="kw">in</span> d
+<span class="kw">for</span> k, v <span class="kw">in</span> d.items(): ...`,
+    example:`freq[c] = freq.get(c, <span class="nm">0</span>) + <span class="nm">1</span>` },
+
+  { lang:'py', level:'intermediate', name:'Set', where:'Deduplication, membership O(1)',
+    syntax:`s = <span class="fn">set</span>(); s.add(x); s.remove(x)
+x <span class="kw">in</span> s
+s1 & s2    <span class="cm"># intersection</span>
+s1 | s2    <span class="cm"># union</span>
+s1 - s2    <span class="cm"># difference</span>`,
+    example:`<span class="kw">if</span> node <span class="kw">in</span> visited: <span class="kw">return</span> <span class="kw">True</span>` },
+
+  { lang:'py', level:'intermediate', name:'List Comprehension', where:'Concise list/dict/set creation',
+    syntax:`[x*<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> nums]
+[x <span class="kw">for</span> x <span class="kw">in</span> nums <span class="kw">if</span> x > <span class="nm">0</span>]
+{k:v <span class="kw">for</span> k,v <span class="kw">in</span> d.items()}
+[[<span class="nm">0</span>]*n <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(m)]`,
+    example:`matrix = [[<span class="nm">0</span>]*n <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(m)]` },
+
+  { lang:'py', level:'intermediate', name:'Sorting', where:'Sort lists with custom keys',
+    syntax:`lst.sort()                       <span class="cm"># in-place</span>
+lst.sort(key=<span class="kw">lambda</span> x: -x)     <span class="cm"># descending</span>
+<span class="fn">sorted</span>(lst, key=<span class="kw">lambda</span> x: x[<span class="nm">1</span>])
+<span class="fn">sorted</span>(d, key=d.get, reverse=<span class="kw">True</span>)`,
+    example:`intervals.sort(key=<span class="kw">lambda</span> x: x[<span class="nm">0</span>])` },
+
+  { lang:'py', level:'intermediate', name:'String Methods', where:'String manipulation',
+    syntax:`s.split(<span class="st">" "</span>); <span class="st">" "</span>.join(lst)
+s.strip(); s.lower(); s.upper()
+s.replace(a, b); s.count(sub)
+s[::-<span class="nm">1</span>]; s[i:j]`,
+    example:`words = s.split(); words.reverse()` },
+
+  { lang:'py', level:'advanced', name:'collections module', where:'Counter, deque, defaultdict',
+    syntax:`<span class="kw">from</span> collections <span class="kw">import</span> Counter, deque, defaultdict
+Counter(lst)         <span class="cm"># freq map</span>
+defaultdict(<span class="ty">list</span>)   <span class="cm"># auto-init</span>
+deque(); dq.appendleft(x); dq.popleft()`,
+    example:`cnt = Counter(s); <span class="kw">return</span> cnt.most_common(<span class="nm">1</span>)` },
+
+  { lang:'py', level:'advanced', name:'heapq', where:'Min-heap — Dijkstra, K-th smallest',
+    syntax:`<span class="kw">import</span> heapq
+heapq.heapify(lst)       <span class="cm"># O(n) build</span>
+heapq.heappush(h, x)
+heapq.heappop(h)
+heapq.nsmallest(k, lst)`,
+    example:`heapq.heappush(heap, (dist, node))` },
+
+  { lang:'py', level:'advanced', name:'bisect (Binary Search)', where:'Insert into sorted list',
+    syntax:`<span class="kw">import</span> bisect
+bisect.bisect_left(a, x)   <span class="cm"># leftmost pos</span>
+bisect.bisect_right(a, x)  <span class="cm"># rightmost pos</span>
+bisect.insort(a, x)        <span class="cm"># insert sorted</span>`,
+    example:`idx = bisect.bisect_left(arr, target)` },
+
+  { lang:'py', level:'advanced', name:'functools & lru_cache', where:'Memoization / DP',
+    syntax:`<span class="kw">from</span> functools <span class="kw">import</span> lru_cache
+
+<span class="pp">@lru_cache</span>(maxsize=<span class="kw">None</span>)
+<span class="kw">def</span> <span class="fn">dp</span>(i, j):
+    <span class="kw">if</span> base: <span class="kw">return</span> <span class="nm">0</span>
+    <span class="kw">return</span> <span class="fn">dp</span>(i-<span class="nm">1</span>, j-<span class="nm">1</span>) + <span class="nm">1</span>`,
+    example:`<span class="pp">@lru_cache</span>(maxsize=<span class="kw">None</span>)\n<span class="kw">def</span> <span class="fn">solve</span>(mask, pos): ...` },
+
+  { lang:'py', level:'advanced', name:'Union-Find (DSU)', where:'Connected components, cycle detection',
+    syntax:`parent = <span class="fn">list</span>(<span class="fn">range</span>(n))
+<span class="kw">def</span> <span class="fn">find</span>(x):
+    parent[x] = <span class="fn">find</span>(parent[x]) <span class="kw">if</span> parent[x]!=x <span class="kw">else</span> x
+    <span class="kw">return</span> parent[x]
+<span class="kw">def</span> <span class="fn">union</span>(a,b): parent[<span class="fn">find</span>(a)] = <span class="fn">find</span>(b)`,
+    example:`<span class="kw">if</span> <span class="fn">find</span>(u) == <span class="fn">find</span>(v): <span class="kw">return False</span>` },
+
+  // ════════════════════ JAVA ════════════════════
+  { lang:'java', level:'beginner', name:'Variable Declaration', where:'Primitive and object types',
+    syntax:`<span class="ty">int</span> x = <span class="nm">5</span>;  <span class="ty">long</span> l = <span class="nm">1L</span>;
+<span class="ty">double</span> d = <span class="nm">3.14</span>;  <span class="ty">boolean</span> b = <span class="kw">true</span>;
+<span class="ty">String</span> s = <span class="st">"hello"</span>;
+<span class="ty">char</span> c = <span class="st">'A'</span>;`,
+    example:`<span class="ty">int</span> count = <span class="nm">0</span>; <span class="ty">long</span> sum = <span class="nm">0L</span>;` },
+
+  { lang:'java', level:'beginner', name:'System.out / Scanner', where:'Console I/O',
+    syntax:`System.out.println(x);
+System.out.printf(<span class="st">"%d %s\n"</span>, n, s);
+<span class="ty">Scanner</span> sc = <span class="kw">new</span> <span class="ty">Scanner</span>(System.in);
+<span class="ty">int</span> n = sc.nextInt();
+<span class="ty">String</span> line = sc.nextLine();`,
+    example:`System.out.println(<span class="st">"ans = "</span> + res);` },
+
+  { lang:'java', level:'beginner', name:'If / Else + Ternary', where:'Conditional branching',
+    syntax:`<span class="kw">if</span> (x > <span class="nm">0</span>) { <span class="cm">// pos</span>
+} <span class="kw">else if</span> (x < <span class="nm">0</span>) { <span class="cm">// neg</span>
+} <span class="kw">else</span> { }
+<span class="ty">int</span> max = a > b ? a : b;`,
+    example:`<span class="kw">if</span> (nums[i] == target) <span class="kw">return</span> i;` },
+
+  { lang:'java', level:'beginner', name:'For / For-Each Loop', where:'Iterating arrays and collections',
+    syntax:`<span class="kw">for</span> (<span class="ty">int</span> i=<span class="nm">0</span>; i<n; i++) { }
+<span class="kw">for</span> (<span class="ty">int</span> num : nums) { }   <span class="cm">// for-each</span>
+<span class="kw">while</span> (left < right) { }`,
+    example:`<span class="kw">for</span> (<span class="ty">int</span> num : nums) sum += num;` },
+
+  { lang:'java', level:'beginner', name:'Arrays', where:'Fixed-size sequential storage',
+    syntax:`<span class="ty">int</span>[] arr = <span class="kw">new</span> <span class="ty">int</span>[n];
+<span class="ty">int</span>[] arr = {<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>};
+<span class="ty">int</span>[][] mat = <span class="kw">new</span> <span class="ty">int</span>[m][n];
+Arrays.sort(arr);  Arrays.fill(arr, <span class="nm">0</span>);`,
+    example:`<span class="ty">int</span>[] dp = <span class="kw">new</span> <span class="ty">int</span>[n+<span class="nm">1</span>];` },
+
+  { lang:'java', level:'beginner', name:'String Methods', where:'String manipulation problems',
+    syntax:`s.length();  s.charAt(i);
+s.substring(l, r);
+s.equals(t);  s.contains(<span class="st">"sub"</span>);
+s.split(<span class="st">" "</span>);  String.valueOf(n);
+s.toCharArray();  s.indexOf(c);`,
+    example:`<span class="kw">for</span> (<span class="ty">char</span> c : s.toCharArray()) freq[c-<span class="st">'a'</span>]++;` },
+
+  { lang:'java', level:'beginner', name:'StringBuilder', where:'Efficient string building',
+    syntax:`<span class="ty">StringBuilder</span> sb = <span class="kw">new</span> <span class="ty">StringBuilder</span>();
+sb.append(x);  sb.insert(i, c);
+sb.deleteCharAt(i);  sb.reverse();
+sb.toString();  sb.length();`,
+    example:`sb.append(node.val).append(<span class="st">","</span>);` },
+
+  { lang:'java', level:'intermediate', name:'ArrayList & Collections', where:'Dynamic arrays, flexible lists',
+    syntax:`<span class="ty">List</span><<span class="ty">Integer</span>> list = <span class="kw">new</span> <span class="ty">ArrayList</span><>();
+list.add(x);  list.get(i);
+list.remove(i);  list.size();
+Collections.sort(list);
+Collections.reverse(list);`,
+    example:`<span class="ty">List</span><<span class="ty">List</span><<span class="ty">Integer</span>>> res = <span class="kw">new</span> <span class="ty">ArrayList</span><>();` },
+
+  { lang:'java', level:'intermediate', name:'HashMap / HashSet', where:'Frequency count, deduplication',
+    syntax:`<span class="ty">Map</span><<span class="ty">K</span>,<span class="ty">V</span>> map = <span class="kw">new</span> <span class="ty">HashMap</span><>();
+map.put(k,v);  map.get(k);
+map.getOrDefault(k, def);
+map.containsKey(k);  map.remove(k);
+<span class="ty">Set</span><<span class="ty">Integer</span>> set = <span class="kw">new</span> <span class="ty">HashSet</span><>();`,
+    example:`map.put(num, map.getOrDefault(num,<span class="nm">0</span>)+<span class="nm">1</span>);` },
+
+  { lang:'java', level:'intermediate', name:'Stack / Queue / Deque', where:'DFS / BFS / sliding window',
+    syntax:`<span class="ty">Deque</span><<span class="ty">Integer</span>> stk = <span class="kw">new</span> <span class="ty">ArrayDeque</span><>();
+stk.push(x); stk.pop(); stk.peek();
+<span class="ty">Queue</span><<span class="ty">Integer</span>> q = <span class="kw">new</span> <span class="ty">LinkedList</span><>();
+q.offer(x); q.poll(); q.peek();`,
+    example:`q.offer(root); <span class="kw">while</span>(!q.isEmpty()){...}` },
+
+  { lang:'java', level:'intermediate', name:'Binary Search', where:'O(log n) search in sorted array',
+    syntax:`<span class="ty">int</span> l=<span class="nm">0</span>, r=n-<span class="nm">1</span>;
+<span class="kw">while</span>(l<=r){
+  <span class="ty">int</span> mid = l + (r-l)/<span class="nm">2</span>;
+  <span class="kw">if</span>(arr[mid]==t) <span class="kw">return</span> mid;
+  <span class="kw">else if</span>(arr[mid]<t) l=mid+<span class="nm">1</span>;
+  <span class="kw">else</span> r=mid-<span class="nm">1</span>;
+}`,
+    example:`<span class="ty">int</span> mid = l+(r-l)/<span class="nm">2</span>; <span class="cm">// avoids overflow</span>` },
+
+  { lang:'java', level:'intermediate', name:'Sorting with Comparator', where:'Custom sort order',
+    syntax:`Arrays.sort(arr, (a,b) -> a-b);         <span class="cm">// asc</span>
+Arrays.sort(arr, (a,b) -> b-a);         <span class="cm">// desc</span>
+Arrays.sort(intervals, (a,b)->a[<span class="nm">0</span>]-b[<span class="nm">0</span>]);
+Collections.sort(list, Comparator.reverseOrder());`,
+    example:`Arrays.sort(jobs, (a,b)->a[<span class="nm">1</span>]-b[<span class="nm">1</span>]);` },
+
+  { lang:'java', level:'intermediate', name:'Two Pointers & Sliding Window', where:'Subarray / pair problems',
+    syntax:`<span class="ty">int</span> l=<span class="nm">0</span>, r=n-<span class="nm">1</span>;              <span class="cm">// two pointers</span>
+<span class="kw">while</span>(l<r){ ...; l++; r--; }
+<span class="kw">for</span>(<span class="ty">int</span> r=<span class="nm">0</span>; r<n; r++){          <span class="cm">// sliding window</span>
+  <span class="kw">while</span>(invalid) l++;
+  maxLen = Math.max(maxLen, r-l+<span class="nm">1</span>);
+}`,
+    example:`maxLen = Math.max(maxLen, r-l+<span class="nm">1</span>);` },
+
+  { lang:'java', level:'advanced', name:'PriorityQueue (Heap)', where:'K-th largest, Dijkstra, greedy',
+    syntax:`<span class="ty">PriorityQueue</span><<span class="ty">Integer</span>> minH = <span class="kw">new</span> <span class="ty">PriorityQueue</span><>();
+<span class="ty">PriorityQueue</span><<span class="ty">Integer</span>> maxH =
+  <span class="kw">new</span> <span class="ty">PriorityQueue</span>(Collections.reverseOrder());
+pq.offer(x); pq.poll(); pq.peek();
+<span class="kw">new</span> <span class="ty">PriorityQueue</span>((a,b)->a[<span class="nm">0</span>]-b[<span class="nm">0</span>]);`,
+    example:`pq.offer(<span class="kw">new</span> <span class="ty">int</span>[]{dist, node});` },
+
+  { lang:'java', level:'advanced', name:'TreeMap / TreeSet', where:'Sorted map, floor/ceiling queries',
+    syntax:`<span class="ty">TreeMap</span><<span class="ty">K</span>,<span class="ty">V</span>> tm = <span class="kw">new</span> <span class="ty">TreeMap</span><>();
+tm.floorKey(k);   tm.ceilingKey(k);
+tm.firstKey();    tm.lastKey();
+<span class="ty">TreeSet</span><<span class="ty">Integer</span>> ts = <span class="kw">new</span> <span class="ty">TreeSet</span><>();
+ts.floor(x); ts.ceiling(x);`,
+    example:`ts.floor(x); ts.higher(x);` },
+
+  { lang:'java', level:'advanced', name:'Backtracking', where:'Permutations, subsets, N-Queens',
+    syntax:`<span class="ty">void</span> bt(<span class="ty">int</span> start, <span class="ty">List</span> path) {
+  <span class="kw">if</span> (done) { res.add(<span class="kw">new</span> <span class="ty">ArrayList</span>(path)); <span class="kw">return</span>; }
+  <span class="kw">for</span> (<span class="ty">int</span> i=start; i<n; i++) {
+    path.add(nums[i]);
+    bt(i+<span class="nm">1</span>, path);
+    path.remove(path.size()-<span class="nm">1</span>); <span class="cm">// undo</span>
+  }
+}`,
+    example:`path.remove(path.size()-<span class="nm">1</span>); <span class="cm">// backtrack</span>` },
+
+  { lang:'java', level:'advanced', name:'Dynamic Programming', where:'DP arrays, memoization',
+    syntax:`<span class="kw">int</span>[] dp = <span class="kw">new int</span>[n+<span class="nm">1</span>];
+dp[<span class="nm">0</span>] = base;
+<span class="kw">for</span>(<span class="ty">int</span> i=<span class="nm">1</span>;i<=n;i++) dp[i]=f(dp[i-<span class="nm">1</span>]);
+<span class="kw">int</span>[][] dp2 = <span class="kw">new int</span>[m+<span class="nm">1</span>][n+<span class="nm">1</span>];
+<span class="kw">for</span>(<span class="ty">int</span> i=<span class="nm">1</span>;i<=m;i++) <span class="kw">for</span>(<span class="ty">int</span> j=<span class="nm">1</span>;j<=n;j++) dp2[i][j]=...;`,
+    example:`dp[i] = Math.min(dp[i-<span class="nm">1</span>], dp[i-<span class="nm">2</span>]) + cost[i];` },
+
+  { lang:'java', level:'advanced', name:'Union-Find (DSU)', where:'Connected components, Kruskal',
+    syntax:`<span class="ty">int</span>[] p = <span class="kw">new int</span>[n];
+Arrays.fill(p, -<span class="nm">1</span>);
+<span class="ty">int</span> find(<span class="ty">int</span> x){ <span class="kw">return</span> p[x]<<span class="nm">0</span>?x:<span class="fn">find</span>(p[x]=<span class="fn">find</span>(p[x])); }
+<span class="ty">void</span> union(<span class="ty">int</span> a,<span class="ty">int</span> b){
+  a=<span class="fn">find</span>(a); b=<span class="fn">find</span>(b); <span class="kw">if</span>(a!=b) p[a]=b;
+}`,
+    example:`<span class="kw">if</span>(<span class="fn">find</span>(u)==<span class="fn">find</span>(v)) <span class="kw">return false</span>; <span class="fn">union</span>(u,v);` },
+
+  { lang:'java', level:'advanced', name:'Graph — BFS / DFS', where:'Shortest path, connectivity',
+    syntax:`<span class="ty">List</span><<span class="ty">List</span><<span class="ty">Integer</span>>> adj = <span class="kw">new</span> <span class="ty">ArrayList</span><>();
+<span class="cm">// BFS:</span>
+<span class="ty">Queue</span><<span class="ty">Integer</span>> q = <span class="kw">new</span> <span class="ty">LinkedList</span><>();
+<span class="cm">// DFS:</span>
+<span class="ty">boolean</span>[] vis = <span class="kw">new boolean</span>[n];
+<span class="ty">void</span> dfs(<span class="ty">int</span> u){ vis[u]=<span class="kw">true</span>; <span class="kw">for</span>(<span class="ty">int</span> v:adj.get(u)) <span class="kw">if</span>(!vis[v]) dfs(v); }`,
+    example:`dist[nb] = dist[cur] + <span class="nm">1</span>;` },
+];
+
+// ── State ──
+let activeLang = 'all', activeLevel = 'all', searchQ = '';
+
+function setLang(lang, btn) {
+  activeLang = lang;
+  document.querySelectorAll('.lang-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+function setLevel(lv, btn) {
+  activeLevel = lv;
+  document.querySelectorAll('.lvl-btn').forEach(b=>b.classList.remove('active','all','beginner','intermediate','advanced'));
+  btn.classList.add('active', lv);
+  render();
+}
+function doSearch() {
+  searchQ = document.getElementById('searchInput').value.toLowerCase().trim();
+  render();
+}
+
+const levelOrder = ['beginner','intermediate','advanced'];
+const levelLabel = { beginner:'Beginner', intermediate:'Intermediate', advanced:'Advanced' };
+const langLabel = { c:'C', cpp:'C++', py:'Python', java:'Java' };
+
+function render() {
+  const container = document.getElementById('content');
+  const filtered = DB.filter(d =>
+    (activeLang==='all'||d.lang===activeLang) &&
+    (activeLevel==='all'||d.level===activeLevel) &&
+    (!searchQ || d.name.toLowerCase().includes(searchQ) || d.where.toLowerCase().includes(searchQ))
+  );
+
+  document.getElementById('resultsCount').textContent =
+    `Showing ${filtered.length} of ${DB.length} syntaxes`;
+  document.getElementById('total-count').textContent = DB.length + '+';
+
+  if (!filtered.length) {
+    container.innerHTML = `<div class="grid"><div class="no-results"><h3>No results found</h3><p>Try a different search or filter combination</p></div></div>`;
+    return;
+  }
+
+  // Group by level, then optionally by lang
+  let html = '';
+  levelOrder.forEach(lv => {
+    const inLevel = filtered.filter(d=>d.level===lv);
+    if (!inLevel.length) return;
+
+    html += `<div class="section-header">
+      <div class="section-dot ${lv}"></div>
+      <h2>${levelLabel[lv]}</h2>
+      <span class="section-count">${inLevel.length} syntaxes</span>
+    </div>
+    <div class="grid">`;
+
+    inLevel.forEach((d, i) => {
+      const delay = (i % 8) * 0.04;
+      html += `
+      <div class="card" style="animation-delay:${delay}s">
+        <div class="card-top">
+          <div class="card-meta">
+            <div class="card-name">${d.name}</div>
+            <div class="card-where">${d.where}</div>
+          </div>
+          <div class="card-badges">
+            <span class="level-badge ${d.level}">${levelLabel[d.level]}</span>
+            <span class="lang-badge ${d.lang}">${langLabel[d.lang]}</span>
+          </div>
+        </div>
+        <div class="card-divider"></div>
+        <div class="code-section">
+          <div class="code-label">Syntax</div>
+          <pre>${d.syntax}</pre>
+        </div>
+        <div class="code-section" style="padding-top:0">
+          <div class="code-label">Example</div>
+          <pre>${d.example}</pre>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+render();
+</script>
+</body>
+</html>
