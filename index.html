@@ -1,35 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parkinson's Disease Prediction</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherPrep — Code Syntaxes & Methods for Placements</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Outfit', sans-serif; background: #0b0b0f; color: #fff; overflow-x: hidden; }
+    .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .card:hover { transform: translateY(-8px); border-color: #818cf8; box-shadow: 0 20px 40px -20px rgba(129, 140, 248, 0.4); }
+    .grad-text { background: linear-gradient(135deg, #fff 30%, #818cf8 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  </style>
 </head>
-<body>
-    <h1>Parkinson's Disease Voice Prediction</h1>
-    <p>Upload an audio file to predict the likelihood of Parkinson's disease.</p>
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/10 blur-[120px] rounded-full"></div>
+  <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full"></div>
 
-    <form action="/predict" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".wav" required>
-        <button type="submit">Upload</button>
-    </form>
+  <div class="text-center mb-16 relative z-10">
+    <div class="inline-block px-4 py-1 rounded-full bg-white/5 border border-white/10 text-[0.7rem] uppercase tracking-widest text-muted mb-6">Placement Bible v2.4</div>
+    <h1 class="text-6xl md:text-8xl font-extrabold mb-6 tracking-tighter grad-text">Aether<span class="text-indigo-400">Prep</span></h1>
+    <p class="text-white/40 text-lg max-w-xl mx-auto font-light leading-relaxed">The ultimate technical interview companion. Master data structures, algorithms, and core theory for top-tier placements.</p>
+  </div>
 
-    <h2 id="result"></h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full relative z-10">
+    <!-- Syntax Guide -->
+    <a href="Webpage.html" class="card glass p-8 rounded-3xl transition-all duration-500 group">
+      <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-6 border border-indigo-500/20 group-hover:bg-indigo-500/20 transition-colors">
+        <svg class="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+      </div>
+      <h3 class="text-2xl font-bold mb-3">Syntax Mastery</h3>
+      <p class="text-white/30 text-sm leading-relaxed">C, C++, Python & Java reference with 110+ optimized algorithm patterns.</p>
+    </a>
 
-    <script>
-        const form = document.querySelector("form");
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+    <!-- Theory Guide -->
+    <a href="Theory.html" class="card glass p-8 rounded-3xl transition-all duration-500 group">
+      <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6 border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-colors">
+        <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+      </div>
+      <h3 class="text-2xl font-bold mb-3">Core Theory</h3>
+      <p class="text-white/30 text-sm leading-relaxed">In-depth concepts on OS, DBMS, Computer Networks, and System Design.</p>
+    </a>
 
-            const formData = new FormData(form);
-            const response = await fetch('/predict', {
-                method: 'POST',
-                body: formData
-            });
+    <!-- Quiz Guide -->
+    <a href="Quiz.html" class="card glass p-8 rounded-3xl transition-all duration-500 group">
+      <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6 border border-amber-500/20 group-hover:bg-amber-500/20 transition-colors">
+        <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      <h3 class="text-2xl font-bold mb-3">Practice Quiz</h3>
+      <p class="text-white/30 text-sm leading-relaxed">Test your knowledge with 100+ placement-specific MCQs and challenges.</p>
+    </a>
+  </div>
 
-            const data = await response.json();
-            document.getElementById("result").innerText = `Probability of Parkinson's Disease: ${data.probability}`;
-        });
-    </script>
+  <footer class="mt-20 text-white/20 text-xs font-medium uppercase tracking-[0.2em]">Designed for PSG iTech Placements</footer>
 </body>
 </html>
