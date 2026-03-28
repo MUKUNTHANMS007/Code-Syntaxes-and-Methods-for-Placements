@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Placement Encyclopedia — AetherPrep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0b0b0f',
+            surface: '#111116',
+            card: '#16161c',
+            border: '#22222e',
+            muted: '#7878a0',
+            faint: '#44445a',
+            accent: '#818cf8',
+            int: '#818cf8',
+            secondary: '#c084fc',
+            success: '#34d399',
+            warning: '#f87171',
+          }
+        }
+      }
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --surface: #111116;
+      --card: #16161c;
+      --border: #22222e;
+      --text: #ededf5;
+      --muted: #a1a1c0;
+      --faint: #71718a;
+      --int: #818cf8;
+      --success: #34d399;
+      --warning: #f87171;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(11, 11, 15, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 1000;
+    }
+
+    .nav-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #fff;
+    }
+
+    /* Layout */
+    .main-container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 84px auto 0;
+      padding: 0 2rem 5rem;
+    }
+
+    @media (max-width: 1200px) {
+      .main-container { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      position: sticky;
+      top: 84px;
+      height: calc(100vh - 104px);
+      overflow-y: auto;
+      padding-right: 1.5rem;
+    }
+
+    .sidebar h3 {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--faint);
+      margin-bottom: 1.5rem;
+      padding-left: 10px;
+    }
+
+    .side-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      position: relative;
+      border: 1px solid transparent;
+    }
+
+    .side-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      transform: translateX(8px);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .side-item.active {
+      background: rgba(129, 140, 248, 0.1);
+      color: var(--int);
+      border-color: rgba(129, 140, 248, 0.2);
+      box-shadow: 0 4px 20px -5px rgba(129, 140, 248, 0.2);
+    }
+
+    .side-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 4px;
+      background: var(--int);
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 0 10px var(--int);
+    }
+
+    .side-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .side-item.active svg {
+      transform: scale(1.1);
+    }
+
+    /* Content Area */
+    .content-area {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 3rem 4.5rem 5rem;
+      min-height: 85vh;
+      animation: contentFade 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+      box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8);
+    }
+
+    @keyframes contentFade {
+      from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(10px); }
+      to { opacity: 1; transform: none; filter: blur(0); }
+    }
+
+    .reveal-base {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .doc-section { display: none; }
+    .doc-section.active { display: block; }
+
+    /* Topic Content Styling - GfG Professional Persona */
+    .subject-title {
+      font-size: clamp(3.2rem, 9vw, 5.8rem);
+      font-weight: 1000;
+      margin-bottom: 3.5rem;
+      letter-spacing: -0.04em;
+      color: #fff;
+      line-height: 1.1;
+      background: linear-gradient(
+        to right, 
+        #fff 20%, 
+        #c7d2fe 35%, 
+        #e9d5ff 65%, 
+        #fff 80%
+      );
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 7s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to { background-position: 200% center; }
+    }
+
+    h2 {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 6.5rem 0 1.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 20px;
+      letter-spacing: -0.015em;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 2.5rem 0 1rem;
+    }
+
+    .sidebar h3 {
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--faint);
+      margin-bottom: 1.5rem;
+      padding-left: 10px;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--int);
+      margin-top: 2.5rem;
+      display: block;
+    }
+
+    .definition-box {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+
+    .core-concept {
+      margin-bottom: 2rem;
+    }
+
+    .core-concept ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .core-concept li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 12px;
+      color: #b4b4d0;
+      font-size: 1.05rem;
+    }
+
+    .core-concept li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--int);
+      font-weight: 900;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2.5rem 0;
+      background: var(--bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .comparison-table th, .comparison-table td {
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .comparison-table th {
+      background: rgba(129, 140, 248, 0.05);
+      color: #fff;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+    }
+
+    .spotlight {
+      background: rgba(52, 211, 153, 0.04);
+      border: 1px solid rgba(52, 211, 153, 0.1);
+      border-left: 6px solid var(--success);
+      padding: 2rem;
+      border-radius: 0 20px 20px 0;
+      margin: 3.5rem 0;
+    }
+
+    .spotlight h5 {
+      color: var(--success);
+      font-weight: 950;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .tricky-q {
+      background: rgba(248, 113, 113, 0.05);
+      border: 1px solid rgba(248, 113, 113, 0.1);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    .real-world {
+      font-style: italic;
+      color: var(--faint);
+      font-size: 0.95rem;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .real-world::before {
+      content: '';
+    }
+
+    .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1; opacity: 0.12; }
+    .orb1 { width: 700px; height: 700px; background: #6366f1; top: -10%; left: -5%; }
+    .orb2 { width: 600px; height: 600px; background: #c084fc; bottom: -10%; right: -5%; }
+  </style>
+</head>
+
+<body>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <nav class="nav-bar">
+    <div class="nav-logo">
+      <div class="logo-icon">E</div>
+      <span>Aether<span style="color:var(--int)">Prep</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="Webpage.html" class="nav-link">Syntax</a>
+      <a href="Theory.html" class="nav-link active">Theory</a>
+      <a href="Quiz.html" class="nav-link">Quizzes</a>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <aside class="sidebar">
+      <h3>CORE KNOWLEDGE HUB</h3>
+      <div class="side-item active" onclick="showSec('os', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        Operating Systems
+      </div>
+      <div class="side-item" onclick="showSec('cn', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10l-6-6-6 6"></path><path d="M12 4v16"></path><path d="M18 14l-6 6-6-6"></path></svg>
+        Computer Networks
+      </div>
+      <div class="side-item" onclick="showSec('ml', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7"></path><path d="M16 5V3"></path><path d="M8 5V3"></path><path d="M3 9h18"></path><path d="M20 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path><path d="M20 14v2"></path><path d="M20 20v2"></path></svg>
+        Machine Learning
+      </div>
+      <div class="side-item" onclick="showSec('dl', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"></path><path d="m16 8 4-4"></path><path d="m8 8-4-4"></path><path d="M12 22v-8"></path><path d="m16 16 4 4"></path><path d="m8 16-4 4"></path><path d="M22 12h-8"></path><path d="M2 12h8"></path></svg>
+        Deep Learning
+      </div>
+      <div class="side-item" onclick="showSec('ai', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
+        Artificial Intelligence
+      </div>
+      
+      <div class="mt-auto pt-8 border-t border-border">
+        <div class="flex justify-between items-center mb-2 px-2">
+          <span class="text-[0.7rem] font-bold text-muted uppercase tracking-widest">Mastery</span>
+          <span id="overall-prog-text" class="text-[0.7rem] font-black text-accent">0%</span>
+        </div>
+        <div class="h-1.5 w-full bg-border rounded-full overflow-hidden">
+          <div id="overall-prog-bar" class="h-full bg-accent transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      <!-- ── OPERATING SYSTEMS CONTENT ── -->
+      <section id="os" class="doc-section active">
+        <h1 class="subject-title">Operating Systems (OS)</h1>
+        
+        <!-- Topic 1 -->
+        <h2>1. Process vs. Thread vs. Program</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A <strong>Program</strong> is a passive entity (executable file) stored on a disk, while a <strong>Process</strong> is an active instance of a program in execution. A <strong>Thread</strong> is the smallest unit of execution within a process, sharing the same address space but having its own stack and registers.</p>
+        
+        <span class="section-label">Core Essentials</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Program (Passive):</strong> A collection of instructions stored as an executable file on the <strong>Secondary Storage</strong>.</li>
+              <li><strong>Process (Active):</strong> A program in execution, loaded into <strong>Primary Memory (RAM)</strong> with allocated resources.</li>
+              <li><strong>Thread (LWP):</strong> The smallest schedulable unit; shares <strong>Code/Data/Heap</strong> with peer threads but maintains its own <strong>Registers & Stack</strong>.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>Process</th><th>Thread</th></tr>
+           <tr><td>Memory</td><td>Isolated address space.</td><td>Shared address space (Heap).</td></tr>
+           <tr><td>Overhead</td><td>High (Context switching is heavy).</td><td>Low (Lightweight).</td></tr>
+           <tr><td>Communication</td><td>Requires IPC (Inter-Process Comm).</td><td>Communicates via shared memory.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Interviewer Focus: Understanding the trade-off between isolation and speed. Multi-threading is preferred for highly concurrent tasks like web servers.</p>
+           <div class="tricky-q">Q: Can a thread exist without a process? <br>A: No. A thread is an execution unit assigned within the context of a process.</div>
+        </div>
+        <p class="real-world">A Word Processing application is a <strong>Process</strong>, while the spell-checker and auto-saver running inside it are <strong>Threads</strong>.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-1', this)">Mark as Read</button>
+
+        <!-- Topic 2 -->
+        <h2>2. Process States & Lifecycle</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The <strong>Process State</strong> defines the current activity of a process as it moves through various stages of execution. The lifecycle typically follows a <strong>5-state model</strong>: New, Ready, Running, Waiting, and Terminated.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>New:</strong> The process is being created and its PCB (Process Control Block) is initialized.</li>
+              <li><strong>Ready:</strong> The process is in main memory, waiting to be assigned to a CPU core.</li>
+              <li><strong>Running:</strong> Instructions are being executed by the processor.</li>
+              <li><strong>Waiting (Blocked):</strong> The process is waiting for some event like I/O completion or signal.</li>
+              <li><strong>Terminated:</strong> The process has finished execution and OS resources are being reclaimed.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: State transitions, specifically the 'Ready to Running' (Dispatching) and 'Running to Waiting' (I/O event) paths.</p>
+           <div class="tricky-q">Q: Does a process always go back to 'Ready' from 'Waiting'? <br>A: Yes. Once I/O completes, it moves to 'Ready' to wait for the scheduler's turn; it cannot jump directly to 'Running'.</div>
+        </div>
+        <p class="real-world">When you click 'Search' in a browser, the process moves to <strong>Waiting</strong> for the network response before returning to <strong>Running</strong> to render results.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-2', this)">Mark as Read</button>
+
+        <!-- Topic 3 -->
+        <h2>3. CPU Scheduling (Preemptive vs. Non-preemptive)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box"><strong>CPU Scheduling</strong> is the process of deciding which process in the ready queue gets to use the CPU next. **Preemptive Scheduling** allows the OS to forcibly interrupt a running process, whereas **Non-preemptive Scheduling** lets a process run until it either finishes or voluntarily releases control.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Preemptive:</strong> Uses time quantums or priority interrupts; better for multi-user/interactive systems.</li>
+              <li><strong>Non-preemptive:</strong> Consistent execution; simple to implement; risks "Starvation" and long response times.</li>
+              <li>Decision points: (1) Running to Waiting, (2) Running to Ready, (3) Waiting to Ready, (4) Terminating.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Type</th><th>Preemptive</th><th>Non-Preemptive</th></tr>
+           <tr><td>Resource Control</td><td>OS can snatch CPU at any time.</td><td>Process releases CPU voluntarily.</td></tr>
+           <tr><td>Response Time</td><td>Fast and predictable.</td><td>Can be high for small tasks.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Criticality in Real-Time OS (RTOS). Preemption is mandatory for responsiveness.</p>
+           <div class="tricky-q">Q: Is FCFS (First Come First Served) preemptive? <br>A: No. FCFS is pure non-preemptive; once a process takes the CPU, it keeps it.</div>
+        </div>
+        <p class="real-world">Modern Windows or macOS kernels are <strong>Preemptive</strong> to ensure a background update doesn't freeze your mouse cursor.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-3', this)">Mark as Read</button>
+
+        <!-- Topic 4 -->
+        <h2>4. Scheduling Algorithms (FCFS, SJF, SRTF, RR, Priority)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box"><strong>Scheduling Algorithms</strong> are specific methods used by the Short-Term Scheduler to organize the Ready Queue for CPU execution. These aim to maximize <strong>CPU Utilization</strong> and minimize <strong>Waiting Time</strong> and <strong>Response Time</strong>.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>FCFS:</strong> Simple; Non-preemptive; suffers from <strong>Convoy Effect</strong>.</li>
+              <li><strong>SJF (Shortest Job First):</strong> Optimal for average waiting time; risks starvation for long jobs.</li>
+              <li><strong>SRTF (Shortest Remaining Time First):</strong> Preemptive version of SJF.</li>
+              <li><strong>Round Robin (RR):</strong> Preemptive; uses a fixed <strong>Time Quantum</strong> (\(q\)); fair for all processes.</li>
+              <li><strong>Priority Sched:</strong> Assigned based on importance; risk of <strong>Starvation</strong> (solved by <strong>Aging</strong>).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Calculating Turnaround Time (\(TAT = Completion - Arrival\)) and Waiting Time (\(WT = TAT - Burst\)).</p>
+           <div class="tricky-q">Q: What happens in RR if the Time Quantum is very large? <br>A: It degrades into simple FCFS.</div>
+        </div>
+        <p class="real-world">Time-sharing cloud servers use <strong>Round Robin</strong> so every user gets a slice of processing power every second.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-4', this)">Mark as Read</button>
+
+        <!-- Topic 5 -->
+        <h2>5. Process Synchronization (Critical Section, Race Condition)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box"><strong>Process Synchronization</strong> is the coordination of concurrent processes to ensure consistent data when accessing shared resources. A <strong>Race Condition</strong> occurs when the output depends on the execution sequence, and a <strong>Critical Section</strong> is the code block where shared data is accessed.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Race Condition:</strong> Unpredictable outcome (e.g., both threads increment a counter simultaneously).</li>
+              <li><strong>Solutions must satisfy:</strong> (1) Mutual Exclusion, (2) Progress, (3) Bounded Waiting.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining the "Bounded Waiting" condition—ensuring a process doesn't wait indefinitely to enter its Critical Section.</p>
+           <div class="tricky-q">Q: Is Software-only Peterson's Solution enough for modern Multi-core CPUs? <br>A: No. Memory ordering and compiler optimizations usually break purely software sync on modern hardware.</div>
+        </div>
+        <p class="real-world">E-commerce Inventory: Two users buying the last item at the same time requires <strong>Sync</strong> to prevent overselling.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-5', this)">Mark as Read</button>
+
+        <!-- Topic 6 -->
+        <h2>6. Semaphores vs. Mutex</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A <strong>Mutex (Mutual Exclusion)</strong> is a locking mechanism that allows only one thread to access a resource at a time, while a <strong>Semaphore</strong> is a signaling tool (integer variable) that controls access to a resource with limited instances.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Mutex:</strong> Locking object; must be released by the same thread that locked it (Ownership).</li>
+              <li><strong>Binary Semaphore:</strong> Value is 0 or 1; similar to Mutex but has no ownership.</li>
+              <li><strong>Counting Semaphore:</strong> Value \(N > 1\); allows multiple instances of a resource (e.g., 5 printer ports).</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>Mutex</th><th>Semaphore</th></tr>
+           <tr><td>Type</td><td>Locking Mechanism.</td><td>Signaling Mechanism.</td></tr>
+           <tr><td>Ownership</td><td>Thread that locks must unlock.</td><td>Any process can signal.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Understanding that a Binary Semaphore is NOT exactly a Mutex due to the 'Ownership' property.</p>
+        </div>
+        <p class="real-world">A 1-person bathroom uses a <strong>Mutex</strong>; a 5-car parking lot uses a <strong>Counting Semaphore</strong>.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-6', this)">Mark as Read</button>
+
+        <!-- Topic 7 -->
+        <h2>7. Classical Sync Problems (Producer-Consumer, Dining Philosophers)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Traditional synchronization challenges that represent real-world concurrency issues. The **Producer-Consumer** problem deals with buffer overflows/underflows, while **Dining Philosophers** models resource allocation and deadlock hazards.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Producer-Consumer:</strong> Managed with 'Full', 'Empty', and 'Mutex' semaphores.</li>
+              <li><strong>Dining Philosophers:</strong> 5 philosophers, 5 forks; if all pick left fork, Deadlock occurs.</li>
+              <li><strong>Solution:</strong> Only allow 4 philosophers at the table or use asymmetric picking rules.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Designing a deadlock-free approach for Dining Philosophers.</p>
+        </div>
+        <p class="real-world">A high-speed logger filling a fixed-size buffer while a storage service writes to disk is a <strong>Producer-Consumer</strong> scenario.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-7', this)">Mark as Read</button>
+
+        <!-- Topic 8 -->
+        <h2>8. Deadlock: Necessary Conditions (Coffman Conditions)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A <strong>Deadlock</strong> is a state where a set of processes are blocked because each is holding a resource and waiting for another held by another process. For a deadlock to occur, **four specific conditions** must hold simultaneously.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Mutual Exclusion:</strong> Resource cannot be shared.</li>
+              <li><strong>Hold and Wait:</strong> Process holds one resource while waiting for another.</li>
+              <li><strong>No Preemption:</strong> Resources cannot be forcibly taken from a process.</li>
+              <li><strong>Circular Wait:</strong> A chain of processes exists where each waits for a resource held by the next.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Preventing Deadlock involves breaking at least ONE of these four conditions.</p>
+        </div>
+        <p class="real-world">Two cars meeting in a 1-lane tunnel where neither can reverse is a <strong>Circular Wait</strong> deadlock.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-8', this)">Mark as Read</button>
+
+        <!-- Topic 9 -->
+        <h2>9. Deadlock Handling (Prevention, Avoidance - Banker’s Algorithm)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Methods used to manage deadlock risks. **Prevention** sets rules to ensure one Coffman condition is never met, while **Avoidance** (Banker's Algorithm) dynamically checks resource requests against "Safe States."</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Prevention:</strong> e.g., Disallow 'Hold & Wait' by requiring all resources at start.</li>
+              <li><strong>Avoidance:</strong> Requires knowledge of future resource needs.</li>
+              <li><strong>Banker's Alg:</strong> Checks if granting a request leads to a state where everyone can eventually finish (\(Available \ge Need\)).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Determining "Safe Seqence" in a Banker's problem. If a sequence exists, there is no deadlock.</p>
+        </div>
+        <p class="real-world">Banks only lend money if they retain enough liquid cash to satisfy at least one priority client's withdrawal completely (**Banker's Logic**).</p>
+        <button class="complete-btn" onclick="toggleComplete('os-9', this)">Mark as Read</button>
+
+        <!-- Topic 10 -->
+        <h2>10. Paging & Segmentation</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Memory management schemes to eliminate fragmentation. **Paging** divides memory into fixed-sized blocks (Pages/Frames), whereas **Segmentation** divides memory into logical variable-sized modules based on program structure.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Paging:</strong> Totally transparent to programmer; simplifies allocation; uses Page Tables.</li>
+              <li><strong>Segmentation:</strong> Programmer's view (Stack, Heap, Code); modules are logical.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Aspect</th><th>Paging</th><th>Segmentation</th></tr>
+           <tr><td>Fragmentation</td><td>Suffers from Internal.</td><td>Suffers from External.</td></tr>
+           <tr><td>Block Size</td><td>Fixed.</td><td>Variable.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why do we use 'Segmented Paging'? Answer: To get the logical modularity of segments with the easy allocation of pages.</p>
+        </div>
+        <p class="real-world">Virtual memory on your PC uses **Paging** to swap 4KB chunks of inactive Chrome tabs to your SSD.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-10', this)">Mark as Read</button>
+
+        <!-- Topic 11 -->
+        <h2>11. Virtual Memory & Demand Paging</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Virtual Memory** allows execution of processes that are not completely in main memory by creating an abstraction. **Demand Paging** is the specific implementation where a page is only loaded into RAM when it is required during execution.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Page Fault:</strong> Occurs when CPU tries to access a page not in RAM; OS must fetch it from Disk.</li>
+              <li>Benefits: Larger address space, higher degree of multiprogramming, less I/O at startup.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining the steps of handling a Page Fault (Trap OS → Locate on Disk → Swap into Frame → Reset Page Table).</p>
+        </div>
+        <p class="real-world">You can play a 100GB game on a PC with 16GB RAM because of **Virtual Memory** swapping assets in real-time.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-11', this)">Mark as Read</button>
+
+        <!-- Topic 12 -->
+        <h2>12. Page Replacement (FIFO, LRU, Optimal)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Algorithms used to decide which page to remove from RAM when a new page needs to be loaded and all frames are full. They aim to minimize the **Page Fault Rate**.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>FIFO:</strong> First In First Out; simple but suffers from **Belady's Anomaly**.</li>
+              <li><strong>LRU:</strong> Least Recently Used; uses past history as an indicator of future (Good/Realistic).</li>
+              <li><strong>Optimal:</strong> Replace page that won't be used for the longest time (Theoretical benchmark).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: LRU vs FIFO. LRU is better because it follows the 'Principle of Locality'.</p>
+        </div>
+        <p class="real-world">Your browser's 'Back' button uses **LRU** logic to keep recently visited pages ready in cache.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-12', this)">Mark as Read</button>
+
+        <!-- Topic 13 -->
+        <h2>13. Fragmentation (Internal vs. External)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Wasted memory that prevents efficient utilization. **Internal Fragmentation** occurs when allocated memory is slightly larger than requested; **External Fragmentation** occurs when total free space exists but is not contiguous.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Internal:</strong> Happens in fixed-partitioning (Paging). Memory within a block is wasted.</li>
+              <li><strong>External:</strong> Happens in variable-partitioning (Segmentation). Solved by **Compaction** or **Paging**.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: How to solve External Fragmentation. Answer: Compaction (shuffling memory) or Paging (splitting logical space).</p>
+        </div>
+        <p class="real-world">A half-empty 4KB Page holding only 1KB of data is **Internal Fragmentation**.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-13', this)">Mark as Read</button>
+
+        <!-- Topic 14 -->
+        <h2>14. Thrashing & Belady’s Anomaly</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Extreme performance degradations in memory management. **Thrashing** is when a system is busy swapping pages rather than executing; **Belady's Anomaly** is the counter-intuitive phenomenon where increasing frames increases page faults.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Thrashing:</strong> Happens when Degree of Multiprogramming is too high; solved by reducing processes.</li>
+              <li><strong>Belady's:</strong> Only occurs in non-stack algorithms like FIFO.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Recognizing Belady's Anomaly in a FIFO trace. Does LRU suffer from it? No, because LRU is a 'Stack Algorithm'.</p>
+        </div>
+        <p class="real-world">An old PC freezing when you open too many Chrome tabs is undergoing **Thrashing**.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-14', this)">Mark as Read</button>
+
+        <!-- Topic 15 -->
+        <h2>15. System Calls & Kernel (Monolithic vs. Micro)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**System Calls** are the programmatic way a program requests service from the kernel. The **Kernel** is the core OS part; its design is either **Monolithic** (everything in one space) or **Micro** (minimal logic in kernel space).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Monolithic:</strong> Linux/Unix; very fast (syscalls stay in one space) but harder to maintain.</li>
+              <li><strong>Microkernel:</strong> Mach/L4; highly secure and stable (crashes don't kill the whole OS) but slower.</li>
+              <li>Syscall examples: fork(), wait(), read(), write(), open().</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Difference between User Mode and Kernel Mode. Hardware prevents User apps from direct Hardware access.</p>
+        </div>
+        <p class="real-world">When a program wants to save a file, it triggers a `write()` <strong>System Call</strong> to ask the Kernel for disk access.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-15', this)">Mark as Read</button>
+
+        <!-- Topic 16 -->
+        <h2>16. RAID Levels</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Redundant Array of Independent Disks (RAID)** is a technology used to combine multiple physical disk drives into a single logical unit for data redundancy, performance improvement, or both.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>RAID 0 (Striping):</strong> Performance only; no redundancy. If one fails, all gone.</li>
+              <li><strong>RAID 1 (Mirroring):</strong> Reliability; data copied to two disks.</li>
+              <li><strong>RAID 5 (Parity):</strong> Distributed parity; balanced performance and safety.</li>
+              <li><strong>RAID 10:</strong> Combined Striping + Mirroring.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why RAID is not a backup. Answer: RAID protects against Hardware failure, not accidental deletion.</p>
+        </div>
+        <p class="real-world">Enterprise database servers use **RAID 10** to ensure maximum speed and zero data loss if a drive dies.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-16', this)">Mark as Read</button>
+
+        <!-- Topic 17 -->
+        <h2>17. Disk Scheduling (SCAN, C-SCAN, LOOK)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Algorithms used by the OS to manage the sequence of I/O requests to the Disk. They aim to reduce **Seek Time** (time to move the read/write head).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>SCAN (Elevator):</strong> Head moves end to end, servicing requests like an elevator.</li>
+              <li><strong>C-SCAN (Circular):</strong> Only services in one direction; snap-backs to start for fairness.</li>
+              <li><strong>LOOK:</strong> Optimized SCAN; only goes as far as the last request in a direction.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Which is more 'fair'? Answer: C-SCAN, as it avoids favoring the middle tracks.</p>
+        </div>
+        <p class="real-world">Modern HDDs implement **LOOK** internally to avoid unnecessary head head movement.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-17', this)">Mark as Read</button>
+
+        <!-- Topic 18 -->
+        <h2>18. Inter-Process Communication (Pipes, Shared Memory)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Mechanisms that allow concurrent processes to communicate and synchronize. The two main models are **Shared Memory** (extremely fast) and **Message Passing** (easier for distributed systems).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Pipes:</strong> Unidirectional; used in `ls | grep`.</li>
+              <li><strong>Named Pipes (FIFOs):</strong> Bi-directional; exist as files.</li>
+              <li><strong>Shared Memory:</strong> Both processes mapped to same physical RAM; requires sync (Semaphore).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Speed vs. Security trade-off between Shared Memory and Message Passing.</p>
+        </div>
+        <p class="real-world">The `|` symbol in Linux terminals is a <strong>Pipe</strong> that connects the output of one process to the input of another.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-18', this)">Mark as Read</button>
+
+        <!-- Topic 19 -->
+        <h2>19. Spooling vs. Buffering</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Techniques to bridge speed gaps between CPU and slow I/O. **Spooling** stores data in a large disk buffer for deferred processing; **Buffering** stores data temporarily in RAM to smooth out speed differences.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Spooling:</strong> Handles multiple simultaneous jobs (e.g. Printer Queue).</li>
+              <li><strong>Buffering:</strong> Smooths input for a single process (e.g. Video streaming).</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Aspect</th><th>Spooling</th><th>Buffering</th></tr>
+           <tr><td>Location</td><td>Disk.</td><td>RAM.</td></tr>
+           <tr><td>Concurrent</td><td>Managed overlapping jobs.</td><td>Managed single stream.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Understanding that Spooling involves the Disk, while Buffering typically stays in RAM.</p>
+        </div>
+        <p class="real-world">A **Printer Spooler** allows you to 'print' 5 documents while the printer is still warming up.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-19', this)">Mark as Read</button>
+
+        <!-- Topic 20 -->
+        <h2>20. Real-Time OS (RTOS) basics</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">An **RTOS** is an operating system where the correctness of a task depends not only on the logical result but also on the <strong>time</strong> at which it is delivered. Use **Deterministic** scheduling.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Hard RTOS:</strong> Strict deadlines; failure to meet = system crash (e.g. Airbag).</li>
+              <li><strong>Soft RTOS:</strong> Deadlines important but minor delays allowed (e.g. Video streaming).</li>
+              <li>Key: High predictability and low interrupt latency.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Hard vs Soft RTOS categorization of common devices.</p>
+        </div>
+        <p class="real-world">Spacecraft and Car Airbags run on **Hard RTOS** because late computation is fatal.</p>
+        <button class="complete-btn" onclick="toggleComplete('os-20', this)">Mark as Read</button>
+      </section>
+
+      <!-- ── OTHER SECTIONS PLACEHOLDERS (To be filled) ── -->
+            <!-- ── COMPUTER NETWORKS CONTENT ── -->
+      <section id="cn" class="doc-section">
+        <h1 class="subject-title">Computer Networks (CN)</h1>
+        
+        <!-- Topic 1 -->
+        <h2>1. OSI Model (7 Layers & their protocols)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The <strong>Open Systems Interconnection (OSI) Model</strong> is a conceptual framework that standardizes the functions of a telecommunication or computing system into <strong>seven logical layers</strong>. It ensures interoperability between diverse communication systems with standard protocols.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Layer 7 (Application):</strong> HTTP, DNS, SMTP; interface for end-user interaction.</li>
+              <li><strong>Layer 6 (Presentation):</strong> SSL/TLS, JPEG; encryption & data formatting.</li>
+              <li><strong>Layer 5 (Session):</strong> NetBIOS, PPTP; dialogue management & session control.</li>
+              <li><strong>Layer 4 (Transport):</strong> TCP, UDP; process-to-process delivery & flow control.</li>
+              <li><strong>Layer 3 (Network):</strong> IP, ICMP; routing & packet forwarding based on IP.</li>
+              <li><strong>Layer 2 (Data Link):</strong> Ethernet, ARP; hop-to-hop delivery based on MAC address.</li>
+              <li><strong>Layer 1 (Physical):</strong> Cables, Hubs; raw bit-stream transmission.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Memorizing the exact order (All People Seem To Need Data Processing) and the 'Unit' of data at each layer (Data, Segment, Packet, Frame, Bits).</p>
+           <div class="tricky-q">Q: What is the data unit at Layer 2? <br>A: Frame.</div>
+        </div>
+        <p class="real-world">When you load a webpage, your browser starts at <strong>Layer 7</strong> and the signal travels down to <strong>Layer 1</strong> before entering the cable.</p>
+
+        <!-- Topic 2 -->
+        <h2>2. TCP/IP Model vs. OSI</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The <strong>TCP/IP Model</strong> is the functional implementation used in the modern internet, consisting of 4 (or 5) layers. Unlike OSI, it merges the top three layers into a single <strong>Application layer</strong> and combines the physical/data link layers in some versions.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Application Layer:</strong> Equates to OSI 5, 6, and 7.</li>
+              <li><strong>Transport Layer:</strong> Equates to OSI 4; manages host-to-host communication.</li>
+              <li><strong>Internet Layer:</strong> Equates to OSI 3; handles addressing and routing.</li>
+              <li><strong>Network Access Layer:</strong> Equates to OSI 1 and 2; handles hardware interaction.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Aspect</th><th>OSI Model</th><th>TCP/IP Model</th></tr>
+           <tr><td>Layers</td><td>7 Layers (Theoretical).</td><td>4/5 Layers (Implementation).</td></tr>
+           <tr><td>Approach</td><td>Vertical/Strict.</td><td>Horizontal/Modular.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why is TCP/IP used over OSI? Answer: TCP/IP is protocol-specific and proven on the ARPANET/Internet; OSI is a general model.</p>
+        </div>
+        <p class="real-world">Every router and smartphone uses <strong>TCP/IP</strong> to synchronize and transmit data globally.</p>
+
+        <!-- Topic 3 -->
+        <h2>3. TCP vs. UDP (Handshaking vs. Connectionless)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Transmission Control Protocol (TCP)** is a connection-oriented, reliable protocol that ensures data delivery via acknowledgments. **User Datagram Protocol (UDP)** is a connectionless, unreliable protocol that prioritizes speed over data integrity.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>TCP:</strong> Heavyweight; uses Flow Control (Sliding Window); error correction; ordered data.</li>
+              <li><strong>UDP:</strong> Lightweight; 'Fire and forget'; no handshake; unordered; low overhead.</li>
+              <li><strong>Overhead:</strong> TCP Header (20 bytes) vs UDP Header (8 bytes).</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>TCP</th><th>UDP</th></tr>
+           <tr><td>Reliability</td><td>Guaranteed delivery.</td><td>Best-effort delivery.</td></tr>
+           <tr><td>Use Case</td><td>Emails (SMTP), Web (HTTP).</td><td>VOIP, Gaming, Streaming.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why UDP is used for DNS. Answer: Low overhead makes single-packet queries extremely fast.</p>
+        </div>
+        <p class="real-world">Downloading a PDF uses <strong>TCP</strong> (all bytes must be correct); playing 'PUBG' uses <strong>UDP</strong> (one dropped packet doesn't matter).</p>
+
+        <!-- Topic 4 -->
+        <h2>4. IP Addressing (IPv4 vs. IPv6, Classful vs. CIDR)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**IP Addressing** is a unique numeric label assigned to each device in a network. **IPv4** uses 32-bit addresses (approx. 4 billion), while **IPv6** uses 128-bit addresses to handle the exponential growth of connected devices.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Classful:</strong> A (0-127), B (128-191), C (192-223); wasteful due to fixed network prefixes.</li>
+              <li><strong>CIDR (Classless Inter-Domain Routing):</strong> Uses a suffix like `/24` to define the network portion flexibly.</li>
+              <li><strong>IPv6:</strong> Hexadecimal notation (e.g., `2001:db8::1`); built-in security (IPSec).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Calculating the number of hosts in a `/mask`. Formula: \(2^{(32 - mask)} - 2\).</p>
+           <div class="tricky-q">Q: What is the address 127.0.0.1? <br>A: Loopback address; used for a machine to communicate with itself.</div>
+        </div>
+        <p class="real-world">Your WiFi router assigns you an <strong>IPv4</strong> address like 192.168.1.5 domestically.</p>
+
+        <!-- Topic 5 -->
+        <h2>5. Subnetting & Supernetting</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Subnetting** is the process of dividing a large network into smaller, manageable sub-networks to reduce congestion. **Supernetting (CIDR aggregation)** is the inverse, combining multiple smaller networks into a single large one to reduce routing table size.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Subnet Mask:</strong> Defines which part of IP is network vs host (e.g., 255.255.255.0).</li>
+              <li><strong>Benefit:</strong> Improves security and reduces 'Broadcast Storms'.</li>
+              <li><strong>CIDR notation:</strong> Represents the number of set bits in the mask.</li>
+           </ul>
+        </div>
+
+        <div class="math-corner">
+           $$Hosts = 2^{(\text{Host Bits})} - 2$$
+           $$Subnets = 2^{(\text{Borrowed Bits})}$$
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why do we subtract 2 in the host formula? Answer: To exclude the Network ID (all 0s) and Broadcast Address (all 1s).</p>
+        </div>
+        <p class="real-world">An office divides their network so the HR and IT departments have separate **Subnets** for security.</p>
+
+        <!-- Topic 6 -->
+        <h2>6. DNS, DHCP, and NAT</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Fundamental internet service protocols. **DNS** translates domain names to IPs; **DHCP** automatically assigns IPs to devices; **NAT** allows multiple private IPs to share one public IP.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>DNS (Domain Name System):</strong> Uses UDP 53; utilizes a hierarchical Root -> TLD -> Authoritative tree.</li>
+              <li><strong>DHCP (DORA process):</strong> Discover, Offer, Request, Acknowledge; uses UDP 67/68.</li>
+              <li><strong>NAT (Network Address Translation):</strong> Found in routers; conserves IPv4 addresses.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining the DORA process in DHCP.</p>
+        </div>
+        <p class="real-world">When you join a Starbucks WiFi, **DHCP** gives you an IP, and **NAT** lets you browse the web using the shop's single public address.</p>
+
+        <!-- Topic 7 -->
+        <h2>7. HTTP vs. HTTPS (The SSL/TLS Handshake)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**HTTP** is the plain-text protocol for web browsing; **HTTPS** adds a layer of security by encrypting the data using **SSL/TLS**. HTTPS protects against "Man-in-the-Middle" (MITM) attacks.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>SSL/TLS Handshake:</strong> (1) Client Hello, (2) Server Hello + Cert, (3) Key Exchange, (4) Cipher Spec Change.</li>
+              <li><strong>Encryption:</strong> Uses Asymmetric encryption for key exchange and Symmetric for data transfer.</li>
+              <li><strong>Port:</strong> HTTP (80) vs HTTPS (443).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why use asymmetric for the handshake but symmetric for data? Answer: Asymmetric is secure but slow; symmetric is very fast for high-volume data.</p>
+        </div>
+        <p class="real-world">Banking websites strictly use **HTTPS** to ensure your password isn't visible on the public network.</p>
+
+        <!-- Topic 8 -->
+        <h2>8. Routing Protocols (Distance Vector vs. Link State)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Algorithms used by routers to find the best path for data packet transmission. **Distance Vector** protocols choose paths based on hop count; **Link State** protocols build a complete map of the network for smarter decisions.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>RIP (Distance Vector):</strong> Uses Bellman-Ford; max 15 hops; sends full table periodically.</li>
+              <li><strong>OSPF (Link State):</strong> Uses Dijkstra; builds topology map; faster convergence.</li>
+              <li><strong>BGP (Path Vector):</strong> The protocol that connects entire ISPs across the internet.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Type</th><th>Distance Vector</th><th>Link State</th></tr>
+           <tr><td>Metric</td><td>Hop count.</td><td>Cost/Bandwidth.</td></tr>
+           <tr><td>Convergence</td><td>Slow.</td><td>Fast.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: The 'Count-to-Infinity' problem in Distance Vector protocols and how split-horizon solves it.</p>
+        </div>
+        <p class="real-world">Corporate networks use **OSPF** to automatically redirect traffic if a main fiber line is cut.</p>
+
+        <!-- Topic 9 -->
+        <h2>9. Error Control (CRC, Checksum, Parity)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Mechanism at the Data Link/Transport layers to detect if bits were altered during transmission. **CRC (Cyclic Redundancy Check)** is the most robust method, treating the bit stream as a polynomial.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Checksum:</strong> Adds segments of data; 1's complement math; used in TCP/IP headers.</li>
+              <li><strong>Parity Bit:</strong> Simple 1-bit check (Even/Odd parity); cannot detect 2-bit errors.</li>
+              <li><strong>CRC:</strong> Binary division using a generator polynomial (\(G(x)\)).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Calculating CRC given a divisor. Remainder must be all 0s at the receiver for success.</p>
+        </div>
+        <p class="real-world">Every Ethernet frame includes a **CRC** trailer to discard corrupted packets locally.</p>
+
+        <!-- Topic 10 -->
+        <h2>10. Flow Control (Stop & Wait, Sliding Window)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Mechanisms to ensure a fast sender doesn't overwhelm a slow receiver. It adjusts the rate of data flow between two nodes.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Stop and Wait:</strong> Sender sends 1 frame, waits for ACK. Inefficient for long distances.</li>
+              <li><strong>Sliding Window:</strong> Sends multiple frames (\(W\)) before requiring single ACK.</li>
+              <li><strong>Selective Repeat:</strong> Only corrupted frames are retransmitted.</li>
+           </ul>
+        </div>
+
+        <div class="math-corner">
+           $$\text{Efficiency (Stop \& Wait)} = \frac{1}{1 + 2k} \quad \text{where } k = \frac{\text{Prop. Delay}}{\text{Trans. Delay}}$$
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Difference between Go-Back-N and Selective Repeat. Answer: GBN resends all after the error; SR only the error.</p>
+        </div>
+        <p class="real-world">Streaming a video uses **Sliding Window** to keep data flowing while waiting for previous acknowledgments.</p>
+
+        <!-- Topic 11 -->
+        <h2>11. Congestion Control (Leaky Bucket, Token Bucket)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Network-wide traffic management to prevent node saturation. **Leaky Bucket** ensures a constant output rate (no bursts); **Token Bucket** allows bursts but limits the average rate.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Leaky Bucket:</strong> Traffic shaping; drops overflowing packets; rigid traffic flow.</li>
+              <li><strong>Token Bucket:</strong> Tokens accumulate in a bucket; allows high-speed bursts if tokens exist.</li>
+              <li><strong>TCP Congestion Control:</strong> Relies on 'Additive Increase Multiplicative Decrease' (AIMD).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Difference between Flow Control (End-to-end) and Congestion Control (Network-wide).</p>
+        </div>
+        <p class="real-world">ISPs use **Token Bucket** to let you enjoy high-speed page loads while capping your sustained download speed for a 50GB file.</p>
+
+        <!-- Topic 12 -->
+        <h2>12. Network Devices (Hub, Switch, Router, Gateway)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Hardware components that build the network. **Hubs** broadcast, **Switches** filter (MAC-based), **Routers** connect networks (IP-based), and **Gateways** convert between dissimilar protocols.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Hub (L1):</strong> Dumb device; creates 'Collision Domains'.</li>
+              <li><strong>Switch (L2):</strong> Intelligent; uses CAM table to map Ports to MACs.</li>
+              <li><strong>Router (L3):</strong> Uses routing tables to determine cross-network paths.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Device</th><th>Layer</th><th>Unit</th></tr>
+           <tr><td>Hub</td><td>Layer 1</td><td>Bits.</td></tr>
+           <tr><td>Switch</td><td>Layer 2</td><td>Frames.</td></tr>
+           <tr><td>Router</td><td>Layer 3</td><td>Packets.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining a 'Collision Domain'. Answer: A segment where data packets can collide. Switches eliminate collisions.</p>
+        </div>
+        <p class="real-world">A **Switch** allows two people in the same office to send large files simultaneously without slowing each other down.</p>
+
+        <!-- Topic 13 -->
+        <h2>13. ARP & RARP</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Conversion protocols between Layer 2 and Layer 3 addresses. **Address Resolution Protocol (ARP)** finds a MAC address from a known IP; **Reverse ARP (RARP)** finds an IP from a known MAC.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>ARP Request:</strong> Broadcasted to everyone on the LAN.</li>
+              <li><strong>ARP Reply:</strong> Unicast (direct) to the requester.</li>
+              <li><strong>Gratuitous ARP:</strong> Used to check for IP conflicts on startup.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Is ARP a Layer 2 or Layer 3 protocol? Answer: It operates at the boundary, often called Layer 2.5.</p>
+        </div>
+        <p class="real-world">When you ping 192.168.1.1, your computer first sends an **ARP** request to find your router's hardware MAC address.</p>
+
+        <!-- Topic 14 -->
+        <h2>14. ICMP (Ping & Traceroute)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Internet Control Message Protocol (ICMP)** is used by network devices to send error messages and operational information. It is the core of diagnostic tools like **Ping** and **Traceroute**.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Echo Request/Reply:</strong> Used by Ping to check reachability.</li>
+              <li><strong>TTL Exceeded:</strong> Used by Traceroute to map every hop to a destination.</li>
+              <li><strong>Host Unreachable:</strong> Sent by router when it cannot find a route.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: How does Traceroute work using TTL? Answer: It increments TTL from 1, forcing each router to send an 'ICMP Timeout' back.</p>
+        </div>
+        <p class="real-world">Running `ping google.com` sends **ICMP** Echo packets to check if your internet connection is alive.</p>
+
+        <!-- Topic 15 -->
+        <h2>15. Network Topologies (Mesh, Star, Bus)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The geometric arrangement of devices in a network. **Mesh** is the most robust (everyone connected); **Star** is the most common (connected to a central hub/switch).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Mesh:</strong> Full mesh connection count = \(n(n-1)/2\). High cost, high reliability.</li>
+              <li><strong>Star:</strong> If central node fails, network dies. Easy to scale.</li>
+              <li><strong>Bus:</strong> All share a single cable; high collision risk.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Topology</th><th>Robustness</th><th>Cost</th></tr>
+           <tr><td>Mesh</td><td>Very High.</td><td>High.</td></tr>
+           <tr><td>Star</td><td>Medium.</td><td>Low/Medium.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Full Mesh cable calculation for 10 nodes. Answer: \(10 \times 9 / 2 = 45\).</p>
+        </div>
+        <p class="real-world">Home WiFi setups are **Star Topologies**, where your phone and laptop all connect to the central router.</p>
+
+        <!-- Topic 16 -->
+        <h2>16. MAC Address vs. IP Address</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**MAC Address** is a 48-bit permanent hardware identifier (Physical); **IP Address** is a 32/128-bit dynamic logical identifier (Logical).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>MAC (L2):</strong> Assigned by manufacturer; unique globally; burned in NIC.</li>
+              <li><strong>IP (L3):</strong> Assigned by network admin/DHCP; changes based on location.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>MAC Address</th><th>IP Address</th></tr>
+           <tr><td>Layer</td><td>Data Link (L2).</td><td>Network (L3).</td></tr>
+           <tr><td>Mutability</td><td>Permanent.</td><td>Dynamic.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why do we need both? Answer: IP allows hierarchical grouping for global routing; MAC allows specific device identification on a local wire.</p>
+        </div>
+        <p class="real-world">A **MAC address** is like your Social Security Number (permanent); an **IP address** is like your Current Mailing Address (changes when you move).</p>
+
+        <!-- Topic 17 -->
+        <h2>17. Firewalls & VPNs</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Network security tools. **Firewalls** filter incoming/outgoing traffic based on rules; **VPNs (Virtual Private Network)** create encrypted tunnels over public networks to hide data and location.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Firewall:</strong> Can be Packet Filtering, Stateful, or Next-Gen (Application aware).</li>
+              <li><strong>VPN:</strong> Uses protocols like IPsec, OpenVPN, or L2TP to encapsulate data.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Difference between stateless and stateful firewalls.</p>
+        </div>
+        <p class="real-world">Working from home requires a **VPN** to access the company's internal files securely.</p>
+
+        <!-- Topic 18 -->
+        <h2>18. Socket Programming basics</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The API used by programmers to create end-to-end network communication. A **Socket** is an endpoint formed by combining an **IP Address** and a **Port Number**.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Stream Sockets:</strong> Use TCP (reliable).</li>
+              <li><strong>Datagram Sockets:</strong> Use UDP (fast).</li>
+              <li><strong>Primitives:</strong> socket(), bind(), listen(), accept(), connect().</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: The sequence of calls for a Server vs. a Client.</p>
+           <div class="tricky-q">Q: What is a socket? <br>A: An endpoint of a two-way communication link. IP:Port.</div>
+        </div>
+        <p class="real-world">A Chat Application uses **Sockets** to bind your phone to a specific port on the server to receive messages.</p>
+
+        <!-- Topic 19 -->
+        <h2>19. 3-Way Handshake (SYN, SYN-ACK, ACK)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The process used by TCP to establish a reliable connection before data transfer. It ensures both sides can send and receive data.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+              <ul>
+                 <li><strong>Step 1:</strong> Client sends **SYN** (Synchronize) + <code>seq=x</code>.</li>
+                 <li><strong>Step 2:</strong> Server sends **SYN-ACK** + <code>seq=y</code> + <code>ack=x+1</code>.</li>
+                 <li><strong>Step 3:</strong> Client sends **ACK** + <code>ack=y+1</code>.</li>
+              </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why is it a 3-way handshake and not 2-way? Answer: To prevent 'Delayed Duplicate' connections from previous sessions.</p>
+           <div class="tricky-q">Q: What is a SYN flood? <br>A: A Denial-of-Service attack where an attacker sends many SYNs but never sends the final ACK back.</div>
+        </div>
+        <p class="real-world">Before your computer downloads a file, it performs a **3-Way Handshake** with the server to agree on sequence numbers.</p>
+
+        <!-- Topic 20 -->
+        <h2>20. SMTP, FTP, POP3, IMAP protocols</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Standard application-layer protocols. **SMTP** is for sending emails; **FTP** for file transfers; **POP3/IMAP** for retrieving emails from a mail server.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>SMTP (25):</strong> Push protocol; sends mail between MTAs.</li>
+              <li><strong>FTP (20/21):</strong> Uses dual ports (Control vs Data).</li>
+              <li><strong>POP3 (110):</strong> Pull protocol; downloads and deletes from server (usually).</li>
+              <li><strong>IMAP (143):</strong> Pull protocol; syncs multiple clients with the server.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>POP3</th><th>IMAP</th></tr>
+           <tr><td>Sync</td><td>Local only.</td><td>Synced across devices.</td></tr>
+           <tr><td>Server Copy</td><td>Usually deleted.</td><td>Kept on server.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why IMAP is better for the modern world. Answer: Allows users to read the same email on a phone, tablet, and laptop.</p>
+        </div>
+        <p class="real-world">When you send a CV, you use **SMTP**, and the recruiter reads it via **IMAP** on their phone.</p>
+      </section>
+
+            <!-- ── MACHINE LEARNING CONTENT ── -->
+      <section id="ml" class="doc-section">
+        <h1 class="subject-title">Machine Learning (ML)</h1>
+        
+        <!-- Topic 1 -->
+        <h2>1. Supervised vs. Unsupervised vs. Reinforcement Learning</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Supervised Learning** uses labeled data to train models for mapping inputs to known outputs. **Unsupervised Learning** finds hidden patterns in unlabeled data, while **Reinforcement Learning (RL)** trains an 'agent' to make decisions by rewarding positive actions and penalizing negative ones.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Supervised:</strong> Regression (Continuous) and Classification (Discrete). Requires Ground Truth.</li>
+              <li><strong>Unsupervised:</strong> Clustering (K-Means) and Dimensionality Reduction (PCA). Finds structure.</li>
+              <li><strong>Reinforcement:</strong> State-Action-Reward cycle. Maximizes cumulative reward over time.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Type</th><th>Input Data</th><th>Goal</th></tr>
+           <tr><td>Supervised</td><td>Labeled.</td><td>Predict Output.</td></tr>
+           <tr><td>Unsupervised</td><td>Unlabeled.</td><td>Find Patterns.</td></tr>
+           <tr><td>Reinforcement</td><td>Experience/Reward.</td><td>Maximize Reward.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Identifying which paradigm to use for a new problem (e.g., Robot navigation = RL, Email Spam = Supervised).</p>
+        </div>
+        <p class="real-world">A spam filter uses **Supervised Learning**; a customer segmenting tool (Amazon recommendations) uses **Unsupervised Learning**.</p>
+
+        <!-- Topic 2 -->
+        <h2>2. Linear & Logistic Regression</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Linear Regression** predicts a continuous numeric value by fitting a straight line to data points. **Logistic Regression** is used for binary classification, predicting the probability (0 to 1) of an instance belonging to a specific class using the Signmoid function.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Linear:</strong> Goal is to minimize MSE (Mean Squared Error). \(y = mx + c\).</li>
+              <li><strong>Logistic:</strong> Maps \(z\) to \([0, 1]\) using \(\sigma(z) = \frac{1}{1 + e^{-z}}\).</li>
+              <li><strong>Assumptions:</strong> Linear relationship, no multi-collinearity, independence of errors.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why call it 'Regression' if it's used for Classification? Answer: Because it uses a linear regression line internally before applying the Sigmoid threshold.</p>
+        </div>
+        <p class="real-world">Predicting a house price uses **Linear Regression**; deciding if an email is 'Spam' or 'Inbox' uses **Logistic Regression**.</p>
+
+        <!-- Topic 3 -->
+        <h2>3. Bias-Variance Tradeoff</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Bias** is the error introduced by simplifying a complex real-world problem (Underfitting). **Variance** is the error from being too sensitive to small fluctuations in training data (Overfitting).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>High Bias:</strong> Model is too simple; misses trends (Underfit).</li>
+              <li><strong>High Variance:</strong> Model is too complex; captures noise (Overfit).</li>
+              <li><strong>Tradeoff:</strong> The goal is to find the 'Sweet Spot' in model complexity where Total Error is minimized.</li>
+           </ul>
+        </div>
+
+        <div class="math-corner">
+           $$\text{Total Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Visualizing the 'Bullseye' diagram. Tight cluster away from center = Low Variance, High Bias.</p>
+        </div>
+        <p class="real-world">A linear model trying to fit circular data has **High Bias**; a complex polynomial fitting every outlier has **High Variance**.</p>
+
+        <!-- Topic 4 -->
+        <h2>4. Overfitting & Underfitting (Regularization)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Overfitting** happens when a model performs perfectly on training data but fails on unseen data. **Underfitting** occurs when the model is too simple to learn even the training data. **Regularization** techniques prevent overfitting by penalizing high weights.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Signals:</strong> Overfit = Low Train Error, High Test Error. Underfit = High Train Error, High Test Error.</li>
+              <li><strong>Causes:</strong> Overfit = Too many features, too little data. Underfit = Too simple model.</li>
+              <li><strong>Fix:</strong> Add a penalty term \(\lambda\) to the Loss Function.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining how increasing training data helps solve Overfitting.</p>
+        </div>
+        <p class="real-world">Memorizing questions for an exam is **Overfitting**; understanding the concepts is **Generalization**.</p>
+
+        <!-- Topic 5 -->
+        <h2>5. L1 (Lasso) vs. L2 (Ridge) Regularization</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Techniques that add a penalty to the loss function to prevent overfitting. **L2 (Ridge)** penalizes the square of weights; **L1 (Lasso)** penalizes the absolute value of weights and can drive them to exactly zero.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>L1 (Lasso):</strong> Used for **Feature Selection**; creates 'Sparse' models.</li>
+              <li><strong>L2 (Ridge):</strong> Keeps all features but shrinks their influence.</li>
+              <li><strong>Elastic Net:</strong> A hybrid of both L1 and L2.</li>
+           </ul>
+        </div>
+
+        <div class="math-corner">
+           $$\text{Ridge Loss} = \text{Loss} + \lambda \sum w^2 \quad \text{Lasso Loss} = \text{Loss} + \lambda \sum |w|$$
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why does Lasso cause sparsity? Answer: L1 penalty has 'corners' at the axes in the optimization space, forcing weights to zero.</p>
+        </div>
+        <p class="real-world">If you have 100 features but only 10 matter, use **L1 (Lasso)** to automatically zero-out the useless 90.</p>
+
+        <!-- Topic 6 -->
+        <h2>6. Decision Trees & Random Forest</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A **Decision Tree** is a flowchart-like structure that splits data based on feature values. **Random Forest** is an ensemble method that creates multiple trees using bagging and averages their results to reduce variance.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Split Criteria:</strong> Entropy (Information Gain) or Gini Impurity.</li>
+              <li><strong>Pruning:</strong> Trimming branches to prevent overfitting in deep trees.</li>
+              <li><strong>Random Forest:</strong> Uses 'Feature Randomness' and 'Bootstrap Aggregation' (Bagging).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why is Random Forest better than a single Decision Tree? Answer: It reduces overfitting and the 'greedy' bias of individual trees.</p>
+        </div>
+        <p class="real-world">A Single Tree helps you decide 'Should I play tennis?'; a **Random Forest** asks 100 people and takes the majority vote.</p>
+
+        <!-- Topic 7 -->
+        <h2>7. Support Vector Machines (SVM) & Kernels</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**SVM** finds the optimal 'Hyperplane' that creates the maximum margin between two classes. The **Kernel Trick** allows SVM to solve non-linear problems by mapping data into a higher-dimensional space where it becomes linearly separable.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Support Vectors:</strong> Data points closest to the hyperplane.</li>
+              <li><strong>Margin:</strong> The distance between support vectors of different classes.</li>
+              <li><strong>Kernels:</strong> RBF (Gaussian), Polynomial, Sigmoid.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining 'Hard Margin' vs 'Soft Margin'. Soft margin allows some outliers to gain better generalization.</p>
+        </div>
+        <p class="real-world">Image recognition tasks use **SVM** with RBF kernels to distinguish between complex shapes like hand-written digits.</p>
+
+        <!-- Topic 8 -->
+        <h2>8. K-Nearest Neighbors (KNN)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A **Lazy Learning** algorithm that classifies a point based on the majority labels of its \(K\) closest neighbors. It doesn't 'learn' a model; it simply stores the data and calculates distance at runtime.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Distance Metrics:</strong> Euclidean, Manhattan, Minkowski.</li>
+              <li><strong>Hyperparameter \(K\):</strong> Small \(K\) = High Variance (Sensitive to noise). Large \(K\) = High Bias.</li>
+              <li><strong>Feature Scaling:</strong> Mandatory! Since it's distance-based, normalized features are essential.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Calculating distance and explaining the effect of outliers on small vs large \(K\) values.</p>
+        </div>
+        <p class="real-world">A real-estate app uses **KNN** to suggest a house price by looking at the prices of the 5 nearest similar houses.</p>
+
+        <!-- Topic 9 -->
+        <h2>9. K-Means & Hierarchical Clustering</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**K-Means** is a centroid-based clustering algorithm that partitions data into \(K\) exclusive clusters. **Hierarchical Clustering** builds a tree-like structure (Dendrogram) to represent nested clusters.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>K-Means Steps:</strong> (1) Pick centroids, (2) Assign points, (3) Update centroids, (4) Repeat.</li>
+              <li><strong>Selecting K:</strong> Use the **Elbow Method** (plotting Inertia vs K).</li>
+              <li><strong>Hierarchical:</strong> Agglomerative (Bottom-up) vs Divisive (Top-down).</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Clustering</th><th>K-Means</th><th>Hierarchical</th></tr>
+           <tr><td>Speed</td><td>Fast (O(n)).</td><td>Slow (O(n^2)).</td></tr>
+           <tr><td>Number of Clusters</td><td>Must be predefined.</td><td>Not required; use dendrogram.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: The Elbow Method and identifying why K-Means fails on non-spherical clusters.</p>
+        </div>
+        <p class="real-world">Netflix uses **Clustering** to group users based on their viewing habits into 'Genre Tribes'.</p>
+
+        <!-- Topic 10 -->
+        <h2>10. Principal Component Analysis (PCA)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**PCA** is a dimensionality reduction technique that transforms a large set of variables into a smaller one that still contains most of the original information. It finds new axes called **Principal Components** that maximize variance.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Variance:</strong> The goal is to retain components with high eigenvalues.</li>
+              <li><strong>Steps:</strong> Standardize → Covariance Matrix → Eigenvectors/values → Sort & Project.</li>
+              <li><strong>Orthogonality:</strong> All resulting components are independent (perpendicular).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Ensuring people understand that PCA is UNSUPERVISED. It doesn't look at labels, only variance.</p>
+        </div>
+        <p class="real-world">Reducing 100 census variables into 5 'Indices' for easier visualization is done via **PCA**.</p>
+
+        <!-- Topic 11 -->
+        <h2>11. Evaluation Metrics (Precision, Recall, F1, ROC-AUC)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Quantitative measures to assess model performance. **Precision** measures accuracy of positive predictions; **Recall** measures the ability to find all positive instances. **F1 Score** is their harmonic mean.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Precision:</strong> \(\frac{TP}{TP + FP}\). Minimized 'False Positives'.</li>
+              <li><strong>Recall:</strong> \(\frac{TP}{TP + FN}\). Minimized 'False Negatives'.</li>
+              <li><strong>ROC Curve:</strong> Plots TPR vs FPR at different thresholds. **AUC** summarizes the curve area.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: When to prioritize Recall over Precision? Answer: Medical diagnosis (Cancer detection) or Disaster prediction.</p>
+        </div>
+        <p class="real-world">A spam filter needs high **Precision** (don't block important mail); a COVID-19 test needs high **Recall** (find all infected).</p>
+
+        <!-- Topic 12 -->
+        <h2>12. Confusion Matrix & Type I/II Errors</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A **Confusion Matrix** is a table used to describe the performance of a classification model. **Type I Error** is a 'False Positive' (Rejected a true null), while **Type II Error** is a 'False Negative' (Accepted a false null).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Type I (False Positive):</strong> Alarm goes off when there's no fire.</li>
+              <li><strong>Type II (False Negative):</strong> No alarm during an actual fire.</li>
+              <li><strong>Accuracy:</strong> \(\frac{TP + TN}{\text{Total}}\). Beware: Inaccurate for imbalanced datasets!</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why is 'Accuracy' misleading for fraud detection? Answer: If 99% of transactions are safe, a model that says 'Always Safe' is 99% accurate but useless.</p>
+        </div>
+        <p class="real-world">In a court trial, convicting an innocent person is a **Type I Error**; letting a guilty person go is a **Type II Error**.</p>
+
+        <!-- Topic 13 -->
+        <h2>13. Gradient Descent (Batch, SGD, Mini-batch)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">An optimization algorithm used to minimize the cost function by iteratively moving in the direction of the steepest descent. The **Learning Rate (\(\eta\))** determines the step size.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Batch GD:</strong> Uses the whole dataset; slow but stable.</li>
+              <li><strong>SGD (Stochastic):</strong> Uses 1 sample per step; fast but noisy (escapes local minima).</li>
+              <li><strong>Mini-batch GD:</strong> Uses small chunks (e.g., 32-512); standard in DL.</li>
+           </ul>
+        </div>
+
+        <div class="math-corner">
+           $$w = w - \eta \cdot \nabla J(w)$$
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining 'Vanishng Gradients' or finding the optimal learning rate. Too high = overshoot; too low = slow.</p>
+        </div>
+        <p class="real-world">Training a massive model like GPT requires **Mini-batch GD** to fit processing requirements and maintain speed.</p>
+
+        <!-- Topic 14 -->
+        <h2>14. Ensemble Learning (Bagging vs. Boosting)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Combining multiple weak learners to create a strong predictive model. **Bagging** reduces variance by parallel training (Random Forest); **Boosting** reduces bias by sequential training (XGBoost, AdaBoost).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Bagging:</strong> Bootstrapped Aggregation. Independence between models.</li>
+              <li><strong>Boosting:</strong> Each new model focuses on correcting the errors of the previous ones.</li>
+              <li><strong>Stacking:</strong> Using a 'Meta-model' to combine predictions of different algorithms.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Aspect</th><th>Bagging</th><th>Boosting</th></tr>
+           <tr><td>Training</td><td>Parallel.</td><td>Sequential.</td></tr>
+           <tr><td>Focus</td><td>Reduces Variance.</td><td>Reduces Bias.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Identifying when to use Gradient Boosting over Random Forest (Boosting is usually better for tabular competition winning).</p>
+        </div>
+        <p class="real-world">Predicting house market trends often uses **XGBoost (Boosting)** for the highest possible precision in time-series data.</p>
+
+        <!-- Topic 15 -->
+        <h2>15. Naive Bayes (Bayes Theorem)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A probabilistic classifier based on **Bayes Theorem** with a 'Naive' assumption of total feature independence. Despite the simplistic assumption, it is highly effective for text data.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Bayes Theorem:</strong> \(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\).</li>
+              <li><strong>Naive Assumption:</strong> Feature A has no effect on Feature B given the class.</li>
+              <li><strong>Types:</strong> Multinomial (Text), Gaussian (Continuous), Bernoulli (Binary).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why the 'Naive' assumption usually holds up in text classification (Word frequency patterns).</p>
+        </div>
+        <p class="real-world">Your first spam filter in the early 2000s likely used **Naive Bayes** to check for words like 'Prize' or 'Urgent'.</p>
+
+        <!-- Topic 16 -->
+        <h2>16. Feature Engineering & Selection</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Feature Engineering** is the art of creating new features to help the model learn (e.g., extracting 'Day of Week' from a timestamp). **Feature Selection** is pruning existing features to simplify the model and reduce noise.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Engineering:</strong> One-hot encoding, Scaling, Binning, Interaction features.</li>
+              <li><strong>Selection:</strong> Filter methods (Correlation), Wrapper methods (RFE), Embedded (Lasso).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining the 'Curse of Dimensionality' and why more features aren't always better.</p>
+        </div>
+        <p class="real-world">In a loan model, adding a feature 'Income-to-Debt Ratio' created from raw columns is **Feature Engineering**.</p>
+
+        <!-- Topic 17 -->
+        <h2>17. Cross-Validation (K-Fold)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A resampling technique used to evaluate a model's performance on multiple subsets of data. **K-Fold CV** splits data into \(K\) parts, training on \(K-1\) and testing on 1, repeating this \(K\) times.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Benefit:</strong> Minimizes bias introduced by a single fixed Train/Test split.</li>
+              <li><strong>Standard K:</strong> Usually 5 or 10.</li>
+              <li><strong>Stratified K-Fold:</strong> Keeps class proportions identical in each fold (Used for imbalanced data).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: When is K-Fold better than Hold-out? Answer: When the dataset is small and every scrap of data is needed for both training and validation.</p>
+        </div>
+        <p class="real-world">Academic researchers use **K-Fold** to prove their model is truly robust across different samplings of a medical trial.</p>
+
+        <!-- Topic 18 -->
+        <h2>18. Curse of Dimensionality</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">High-dimensional data (too many features) causes data points to become increasingly sparse, making distance-based algorithms like KNN or K-Means highly inaccurate and demanding massive amounts of training data.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Distance Problem:</strong> In high dimensions, the distance between any two points becomes nearly identical.</li>
+              <li><strong>Overfitting:</strong> Models find noise patterns that don't generalize.</li>
+              <li><strong>Solution:</strong> Dimensionality Reduction (PCA, Feature Selection).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why Euclidean distance breaks in 10,000-dimensional space.</p>
+        </div>
+        <p class="real-world">Searching for a specific book in a 1D shelf is easy; searching in a 1000-dimensional library where every book is equidistant is the **Curse**.</p>
+
+        <!-- Topic 19 -->
+        <h2>19. Hyperparameter Tuning (Grid vs. Random Search)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Hyperparameters are settings defined before training (e.g., Learning Rate, K in KNN). **Grid Search** tries every combination in a predefined set, while **Random Search** samples combinations randomly for faster results.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Grid Search:</strong> Exhaustive and slow; guaranteed to find the 'best' in your provided grid.</li>
+              <li><strong>Random Search:</strong> Statistically faster; more efficient for large search spaces.</li>
+              <li><strong>Bayesian Optimization:</strong> Smarter tuning that learns from previous results to pick better parameters.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why is Random Search often preferred? Answer: Because many hyperparameters don't impact the result, and Random Search explores the 'important' ones better.</p>
+        </div>
+        <p class="real-world">Before deploying an XGBoost model, engineers use **Random Search** to find the perfect 'Number of Trees' and 'Depth'.</p>
+
+        <!-- Topic 20 -->
+        <h2>20. Model Drift & Deployment (MLOps basics)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Model Drift** is the degradation of model performance over time because real-world data patterns change. **MLOps** comprises the practices of automating the deployment, monitoring, and maintenance of ML models.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Concept Drift:</strong> The statistical properties of the target changes (e.g., 'Spam' content evolves).</li>
+              <li><strong>Data Drift:</strong> The input data distribution changes.</li>
+              <li><strong>Monitoring:</strong> Tracking drift using metrics like Population Stability Index (PSI).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: How to fix Concept Drift? Answer: Periodic retraining with the most recent labeled data.</p>
+        </div>
+        <p class="real-world">A shopping model trained before COVID-19 suffered from massive **Model Drift** when buying habits shifted suddenly in 2020.</p>
+        <button class="complete-btn" onclick="toggleComplete('ml-20', this)">Mark as Read</button>
+      </section>
+
+            <!-- ── DEEP LEARNING CONTENT ── -->
+      <section id="dl" class="doc-section">
+        <h1 class="subject-title">Deep Learning (DL)</h1>
+        
+        <!-- Topic 1 -->
+        <h2>1. Perceptron & Multi-Layer Perceptron (MLP)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A <strong>Perceptron</strong> is the simplest form of a neural network, consisting of a single layer of weights and a threshold activation function. A <strong>Multi-Layer Perceptron (MLP)</strong> is a feedforward artificial neural network consisting of at least three layers (input, hidden, and output) with non-linear activation functions.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Simplified Model:</strong> Computes a weighted sum of inputs and applies a step function.</li>
+              <li><strong>MLP:</strong> Uses <strong>Backpropagation</strong> and <strong>Gradient Descent</strong> to update weights across multiple hidden layers.</li>
+              <li><strong>Linear Separability:</strong> A single perceptron can only solve linearly separable problems (like AND/OR gates, not XOR).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why a single perceptron cannot solve the XOR problem (Minsky and Papert, 1969).</p>
+           <div class="tricky-q">Q: What is the purpose of a hidden layer in an MLP? <br>A: To allow the network to learn complex, non-linear mappings by projecting data into higher-dimensional feature spaces.</div>
+        </div>
+        <p class="real-world">A simple **Perceptron** can decide if you should wear a coat based on temp > 10°C; an **MLP** can predict the exact temperature based on complex climate variables.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-1', this)">Mark as Read</button>
+
+        <!-- Topic 2 -->
+        <h2>2. Activation Functions (ReLU, Sigmoid, Tanh, Softmax)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Activation Functions** are mathematical equations that determine the output of a neural network node. They introduce <strong>Non-linearity</strong> into the network, allowing it to learn complex patterns instead of acting as a simple linear transformation.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Sigmoid:</strong> Maps input to \([0, 1]\); prone to 'vanishing gradients'.</li>
+              <li><strong>Tanh:</strong> Maps input to \([-1, 1]\); zero-centered, often better than Sigmoid.</li>
+              <li><strong>ReLU (Rectified Linear Unit):</strong> Output is \(max(0, x)\); prevents vanishing gradients; standard for hidden layers.</li>
+              <li><strong>Softmax:</strong> Maps output to probabilities summing to 1; used in the final layer for multi-class classification.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Function</th><th>Range</th><th>Best Use Case</th></tr>
+           <tr><td>Sigmoid</td><td>(0, 1)</td><td>Binary Classification output.</td></tr>
+           <tr><td>ReLU</td><td>[0, Inf)</td><td>Hidden Layers in deep networks.</td></tr>
+           <tr><td>Softmax</td><td>(0, 1)</td><td>Multi-class classification output.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: The 'Dead ReLU' problem—where neurons output zero for all inputs if weights become too small. Solution: Leaky ReLU.</p>
+        </div>
+        <p class="real-world">**ReLU** is used in almost all deep image recognition models to keep the training speed high and gradients healthy.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-2', this)">Mark as Read</button>
+
+        <!-- Topic 3 -->
+        <h2>3. Forward & Backpropagation (Mathematical intuition)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Forward Propagation** is the process of passing input through the network to generate a prediction. **Backpropagation** is the method used to calculate the gradient of the loss function with respect to each weight by applying the <strong>Chain Rule</strong>, essentially moving 'errors' backward to update the model.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Forward Pass:</strong> Calculation of outputs layer by layer.</li>
+              <li><strong>Error Calculation:</strong> Comparison of predicted output with ground truth using a Loss function.</li>
+              <li><strong>Backward Pass:</strong> Calculation of partial derivatives (gradients) using the Chain Rule: \(\frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} \cdot \frac{\partial a}{\partial z} \cdot \frac{\partial z}{\partial w}\).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining how the Chain Rule is the engine of Deep Learning.</p>
+           <div class="tricky-q">Q: Does Backpropagation update weights? <br>A: No. Backprop only calculates gradients. Optimization algorithms like SGD use those gradients to update weights.</div>
+        </div>
+        <p class="real-world">**Backpropagation** is like a student checking the answer key and tracing back their mental mistakes to prepare for the next practice test.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-3', this)">Mark as Read</button>
+
+        <!-- Topic 4 -->
+        <h2>4. Loss Functions (MSE, Cross-Entropy)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Loss Functions** quantify how 'wrong' the model's predictions are compared to the actual targets. **MSE (Mean Squared Error)** is used for regression, while **Cross-Entropy** is the standard for classification, measuring the difference between two probability distributions.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>MSE:</strong> Penalizes large errors heavily; \(\frac{1}{n}\sum(y_{true} - y_{pred})^2\).</li>
+              <li><strong>Cross-Entropy:</strong> Highly sensitive to small differences in probabilities near 0 or 1; \(- \sum y_{true} \log(y_{pred})\).</li>
+              <li><strong>Binary Cross-Entropy (Log Loss):</strong> Used for 0/1 classification tasks.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why use Cross-Entropy instead of Accuracy for training? Answer: Accuracy is not differentiable; you need a smooth gradient to optimize.</p>
+        </div>
+        <p class="real-world">Predicting stock prices uses **MSE**; identifying if an image is a dog or cat uses **Cross-Entropy**.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-4', this)">Mark as Read</button>
+
+        <!-- Topic 5 -->
+        <h2>5. Vanishing & Exploding Gradient Problems</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Instabilities in deep neural networks during training. **Vanishing Gradients** occur when gradients become extremely small, causing early layers to stop learning. **Exploding Gradients** occur when gradients grow uncontrollably, leading to unstable weight updates and model 'diversion'.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Vanishing Cause:</strong> Repeated multiplication of small values (e.g., Sigmoid derivatives).</li>
+              <li><strong>Exploding Cause:</strong> Multiplication of large weight values in deep layers.</li>
+              <li><strong>Solutions:</strong> ReLU activation, Batch Normalization, Gradient Clipping, and Residual (Skip) Connections.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Identifying how LSTM 'gates' specifically solve the vanishing gradient problem in sequence data.</p>
+        </div>
+        <p class="real-world">Training a 100-layer network would be impossible without **Residual Connections (ResNet)** to bypass the vanishing gradient bottleneck.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-5', this)">Mark as Read</button>
+
+        <!-- Topic 6 -->
+        <h2>6. CNN: Architecture (Convolution, Pooling, Padding)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Convolutional Neural Networks (CNNs)** are specialized for spatial data like images. They use **Filters (Kernels)** to detect features like edges and textures via mathematical convolution, followed by **Pooling** to reduce dimensionality and ensure translation invariance.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Convolution:</strong> Element-wise multiplication of a filter over a small patch of input.</li>
+              <li><strong>Padding:</strong> Adding zero-pixels to the border to maintain image size after convolution.</li>
+              <li><strong>Pooling (Max/Average):</strong> Down-sampling to retain only the most prominent features (e.g., 2x2 Max Pool).</li>
+              <li><strong>Flattening:</strong> Converting 2D feature maps into a 1D vector for final classification.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why use CNNs instead of MLPs for images? Answer: Parameter efficiency. CNNs share weights across spatial regions (local receptive fields).</p>
+        </div>
+        <p class="real-world">**CNNs** are the core technology behind Face ID on your iPhone and self-driving car vision systems.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-6', this)">Mark as Read</button>
+
+        <!-- Topic 7 -->
+        <h2>7. RNN: Sequential data & Vanishing Gradients</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Recurrent Neural Networks (RNNs)** are designed for sequential data (time-series, text) where inputs are dependent on previous states. They maintain a 'hidden state' or memory that updates at each time step, allowing them to process sequences of variable length.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Hidden State:</strong> \(h_t = f(W \cdot h_{t-1} + U \cdot x_t)\).</li>
+              <li><strong>BPTT (Backpropagation Through Time):</strong> The training method for RNNs.</li>
+              <li><strong>Failure:</strong> Standard RNNs cannot remember long-range dependencies due to vanishing gradients across steps.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why RNNs are 'unrolled' in time and how this leads to gradient instability.</p>
+        </div>
+        <p class="real-world">Predicting the next word in a sentence (Auto-complete) used to be the primary job of **RNNs** before Transformers.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-7', this)">Mark as Read</button>
+
+        <!-- Topic 8 -->
+        <h2>8. LSTM & GRU (Gating mechanisms)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Long Short-Term Memory (LSTM)** and **Gated Recurrent Units (GRU)** are advanced RNN architectures designed to solve the long-term dependency problem. They use **Gating Mechanisms** to selectively forget or remember information over long sequences.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>LSTM Gates:</strong> (1) Forget Gate, (2) Input Gate, (3) Output Gate. Maintains a separate 'Cell State'.</li>
+              <li><strong>GRU:</strong> Simplified version; combines forget and input gates into an 'Update Gate'.</li>
+              <li><strong>Benefit:</strong> Gradient flow is preserved through the cell state, allowing memory over 1000+ steps.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Comparing LSTM and GRU. Answer: GRU is faster and slightly simpler; LSTM is more flexible for very complex sequences.</p>
+        </div>
+        <p class="real-world">Google Translate originally migrated to **LSTMs** to handle long-distance grammatical agreements in translation.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-8', this)">Mark as Read</button>
+
+        <!-- Topic 9 -->
+        <h2>9. Weight Initialization (Xavier, He)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Weight Initialization** is the strategy for choosing starting values for neural network weights. Proper initialization ensures that the variance of activations and gradients stays stable across layers, preventing signals from disappearing or exploding instantly.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Xavier (Glorot) Init:</strong> Best for Sigmoid/Tanh. Balances variance based on <code>fan_in</code> and <code>fan_out</code>.</li>
+              <li><strong>He Initialization:</strong> Best for **ReLU**. Uses a factor of \(\sqrt{2/\text{fan\_in}}\) to account for ReLU's half-zero output.</li>
+              <li><strong>Zero Init:</b> A fatal mistake! Causes all neurons in a layer to perform the same calculation (Symmetry).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why not initialize all weights to zero? Answer: To maintain **Symmetry Breaking** so each neuron learns a unique feature.</p>
+        </div>
+        <p class="real-world">Using **He Initialization** is a day-one best practice for any modern Deep Learning engineer building multi-layer CNNs.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-9', this)">Mark as Read</button>
+
+        <!-- Topic 10 -->
+        <h2>10. Batch Normalization & Dropout</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Techniques to improve training stability and prevent overfitting. **Batch Normalization** re-scales the outputs of a layer to have zero mean and unit variance. **Dropout** randomly 'turns off' neurons during training, forcing the network to learn redundant representations.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Batch Norm:</strong> Reduces Internal Covariate Shift; allows higher learning rates.</li>
+              <li><strong>Dropout:</strong> Prevents 'Co-adaptation' between neurons; only used during <strong>Training</strong>, not <strong>Inference</strong>.</li>
+              <li><strong>Effect:</strong> Batch Norm accelerates training; Dropout generalizes the model better.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Difference in Dropout behavior between Training and Testing. Answer: In testing, all neurons are active but outputs are scaled.</p>
+        </div>
+        <p class="real-world">**Dropout** is like training a basketball team where someone is randomly pulled off the court—the remaining players must learn to play all positions to win.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-10', this)">Mark as Read</button>
+
+        <!-- Topic 11 -->
+        <h2>11. Optimizers (Adam, RMSProp, Adagrad)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Optimizers** are algorithms that update weights to minimize loss. **Adam (Adaptive Moment Estimation)** is the current gold standard, combining the benefits of <strong>Momentum</strong> (speed through flat areas) and <strong>RMSProp</strong> (adapting learning rates for each parameter).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Adagrad:</strong> Lowers learning rate for frequent parameters; good for sparse data but decays too fast.</li>
+              <li><strong>RMSProp:</strong> Fixes Adagrad's decay by using a moving average of squared gradients.</li>
+              <li><strong>Adam:</strong> Most robust; uses both first and second moments of gradients to adjust steps.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why is Adam favored? Answer: It requires little hyperparameter tuning and handles noise/sparsity exceptionally well.</p>
+        </div>
+        <p class="real-world">If you're unsure which optimizer to use, **Adam** is almost always the correct first choice in 95% of deep learning projects.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-11', this)">Mark as Read</button>
+
+        <!-- Topic 12 -->
+        <h2>12. Transfer Learning</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Transfer Learning** is a technique where a model developed for one task is reused as the starting point for a model on a second related task. It is highly effective when training data for the second task is limited.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Logic:</strong> Early layers of a CNN learn general features (edges, shapes) which are useful for almost all vision tasks.</li>
+              <li><strong>Fine-tuning:</strong> Keeping early weights 'frozen' and training only the final classification layers.</li>
+              <li><strong>Data Efficiency:</strong> Allows training high-quality models with as few as 100 images.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Identifying when to 'unfreeze' more layers. Answer: If the new dataset is huge and very different from the original source.</p>
+        </div>
+        <p class="real-world">Taking a model pre-trained on ImageNet (natural images) and using it to identify X-ray fractures is a classic **Transfer Learning** use case.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-12', this)">Mark as Read</button>
+
+        <!-- Topic 13 -->
+        <h2>13. Autoencoders & GANs</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Unsupervised neural architectures. **Autoencoders** learn to compress input into a lower-dimensional latent space and then reconstruct it. **GANs (Generative Adversarial Networks)** use a 'Generator' and a 'Discriminator' in a zero-sum game to create hyper-realistic synthetic data.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Autoencoder:</strong> Encoder (Compression) + Decoder (Reconstruction). Used for Denoising/Anomaly Detection.</li>
+              <li><strong>GAN Generator:</strong> Tries to create 'fake' data that fools the Discriminator.</li>
+              <li><strong>GAN Discriminator:</strong> Tries to distinguish between real data and data from the Generator.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining 'Mode Collapse' in GANs—where the generator only learns to produce a single type of result instead of diversity.</p>
+        </div>
+        <p class="real-world">**GANs** are responsible for creating Deepfakes, while **Autoencoders** are used by astronomers to find glitches in telescope data.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-13', this)">Mark as Read</button>
+
+        <!-- Topic 14 -->
+        <h2>14. Attention Mechanism & Transformers</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Attention** is a mechanism that allows a model to weigh the importance of different parts of input data relative to a specific context. **Transformers** use **Self-Attention** to process entire sequences in parallel, replacing sequential RNNs entirely.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Self-Attention:</strong> Calculates Query (What I want), Key (What I have), and Value (What I give).</li>
+              <li><strong>Multi-Head Attention:</strong> Allows the model to focus on various aspects of context simultaneously.</li>
+              <li><strong>Positional Encoding:</strong> Adds info about word order since Transformers process all words at once.</li>
+           </ul>
+        </div>
+
+        <div class="math-corner">
+           $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why are Transformers faster to train than RNNs? Answer: Parallelization. RNNs require step-by-step processing; Transformers do not.</p>
+        </div>
+        <p class="real-world">The 'Attention' mechanism is the breakthrough that allowed AI like **ChatGPT** to understand complex, long-distance relationships in text.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-14', this)">Mark as Read</button>
+
+        <!-- Topic 15 -->
+        <h2>15. BERT & GPT (High-level architecture)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Modern Large Language Models (LLMs) based on Transformers. **BERT** is Encoder-only and 'bidirectional' (looks at both sides of a word). **GPT** is Decoder-only and 'unidirectional' (predicts the next word from left-to-right).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>BERT:</strong> Pre-trained using Masked Language Modeling (MLM). Excellent for Understanding tasks (Search, Q&A).</li>
+              <li><strong>GPT:</strong> Pre-trained using Causal Language Modeling. Excellent for Generation tasks.</li>
+              <li><strong>Paradigm:</strong> Both rely on 'Pre-train → Fine-tune' workflows.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Model</th><th>Direction</th><th>Primary Strength</th></tr>
+           <tr><td>BERT</td><td>Bi-directional.</td><td>Classification & Information Retrieval.</td></tr>
+           <tr><td>GPT</td><td>Uni-directional.</td><td>Content Generation & Creative Writing.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why BERT is better for sentiment analysis than GPT. Answer: It has full context of the words surrounding the adjectives.</p>
+        </div>
+        <p class="real-world">Google Search uses **BERT** to understand your query intent, while **GPT** powers assistants that write code or essays for you.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-15', this)">Mark as Read</button>
+
+        <!-- Topic 16 -->
+        <h2>16. Tensors & Frameworks (PyTorch vs. TensorFlow)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Tensors** are n-dimensional arrays (multi-dimensional matrices) which are the fundamental data structures in deep learning. **PyTorch** and **TensorFlow** are the primary frameworks used to build and train models on these tensors.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Tensor:</strong> Scalar (0D), Vector (1D), Matrix (2D), Tensor (3D+).</li>
+              <li><strong>PyTorch:</strong> Dynamic computational graphs; very popular in Research (Pythonic).</li>
+              <li><strong>TensorFlow:</strong> High scalability; robust for production deployment (Keras integration).</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>PyTorch</th><th>TensorFlow</th></tr>
+           <tr><td>Graph Type</td><td>Dynamic (imperative).</td><td>Static (traditionally).</td></tr>
+           <tr><td>Debugging</td><td>Easy/Pythonic.</td><td>Historically difficult (improving).</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining what a Tensor is in the context of DL. Answer: A container for data that carries a gradient history.</p>
+        </div>
+        <p class="real-world">Most AI papers today use **PyTorch** for its flexibility, while large tech companies often use **TensorFlow** for massive data pipelines.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-16', this)">Mark as Read</button>
+
+        <!-- Topic 17 -->
+        <h2>17. Object Detection (YOLO, R-CNN)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Object Detection** involves identifying 'What' is in an image and 'Where' it is located (Bounding Boxes). **R-CNN** uses region proposals (slow but accurate); **YOLO (You Only Look Once)** treats detection as a single regression problem (fastest).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Bounding Box:</strong> Represented as \((x, y, w, h)\).</li>
+              <li><strong>IoU (Intersection over Union):</strong> Metric to evaluate box overlap accuracy.</li>
+              <li><strong>Non-Max Suppression (NMS):</strong> Removes redundant duplicate boxes for the same object.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Trade-off between inference speed and accuracy. Answer: YOLO is for real-time; Faster R-CNN is for high-precision medical/scientific images.</p>
+        </div>
+        <p class="real-world">Self-driving cars use **YOLOv8** to detect pedestrians and street signs in milliseconds while driving.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-17', this)">Mark as Read</button>
+
+        <!-- Topic 18 -->
+        <h2>18. NLP: Tokenization, Word Embeddings (Word2Vec)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Tokenization** is splitting text into units (words/sub-words). **Word Embeddings** map these tokens to continuous vectors where similar-meaning words are spatially close in high-dimensional space.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Word2Vec:</strong> Uses Skip-gram or CBOW to learn context.</li>
+              <li><strong>Embedding Properties:</strong> Captures semantics (e.g., <code>King - Man + Woman = Queen</code>).</li>
+              <li><strong>Sub-word Tokenization:</strong> Used by models like BERT (WordPiece) to handle 'Out-of-vocabulary' words.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why we use vectors instead of simple integer IDs for words. Answer: Integers imply a false numerical relationship (e.g., Cat=1, Dog=2); vectors define semantic similarity.</p>
+        </div>
+        <p class="real-world">**Word Embeddings** are why your phone's keyboard knows that if you type 'Happy', it should suggest 'Birthday' next.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-18', this)">Mark as Read</button>
+
+        <!-- Topic 19 -->
+        <h2>19. Fine-tuning vs. RAG (Retrieval Augmented Generation)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Techniques to optimize LLMs for specific knowledge. **Fine-tuning** updates the actual model weights on new data. **RAG** provides a search-engine context to the prompt, allowing the model to 'read' the correct info before answering without weight updates.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Fine-tuning:</strong> For style and domain adaptation. Expensive and static.</li>
+              <li><strong>RAG:</strong> For factual accuracy and proprietary data. Dynamic and verifiable (provides citations).</li>
+              <li><strong>Vector Database:</strong> Stores the external knowledge used by RAG.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Method</th><th>Knowledge Type</th><th>Cost</th></tr>
+           <tr><td>Fine-tuning</td><td>Internalized skills/style.</td><td>High (GPU intensive).</td></tr>
+           <tr><td>RAG</td><td>External facts/documents.</td><td>Low (Search intensive).</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: When is RAG better than fine-tuning? Answer: When the data changes frequently (e.g., Daily news or real-time inventory).</p>
+        </div>
+        <p class="real-world">A legal AI uses **RAG** to look up specific case law in a 5000-page PDF before summarizing it for a lawyer.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-19', this)">Mark as Read</button>
+
+        <!-- Topic 20 -->
+        <h2>20. Hardware Acceleration (GPU/TPU for DL)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Hardware Accelerators** are specialized chips designed for the high-volume matrix multiplication involved in deep learning. **GPUs** are versatile parallel processors; **TPUs (Tensor Processing Units)** are ASICs custom-built by Google for tensor math.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Parallelism:</strong> A CPU has few powerful cores; a GPU has thousands of simple cores for simultaneous math.</li>
+              <li><strong>VRAM:</strong> Memory on the GPU where tensors are stored during training.</li>
+              <li><strong>CUDA (NVIDIA):</strong> The primary software layer that connects code to GPU hardware.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why are GPUs faster for Deep Learning? Answer: Matrix operations can be done in parallel; CPUs compute sequentially.</p>
+        </div>
+        <p class="real-world">Training a modern LLM without **H100 GPUs** or **TPUs** would take decades instead of weeks.</p>
+        <button class="complete-btn" onclick="toggleComplete('dl-20', this)">Mark as Read</button>
+      </section>
+
+            <!-- ── ARTIFICIAL INTELLIGENCE CONTENT ── -->
+      <section id="ai" class="doc-section">
+        <h1 class="subject-title">Artificial Intelligence (AI)</h1>
+        
+        <!-- Topic 1 -->
+        <h2>1. Weak AI vs. Strong AI vs. GenAI</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Weak AI (Narrow AI)** is designed to perform a single specific task (e.g., Siri). **Strong AI (AGI)** is a hypothetical machine with consciousness and human-level intelligence across all domains. **GenAI** is AI capable of creating original content (text, images, audio).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Narrow AI:</strong> Rule-based or pattern-matching; no general understanding.</li>
+              <li><strong>AGI:</strong> Self-aware; can learn any mental task a human can.</li>
+              <li><strong>Generative:</strong> Based on Probabilistic models (LLMs, Diffusion) to synthesize new data.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining where current models like GPT-4 sit. Answer: They are advanced Narrow AI/Generative AI, not yet fully AGI.</p>
+        </div>
+        <p class="real-world">**Weak AI** plays chess; **GenAI** writes a poem about why it lost at chess.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-1', this)">Mark as Read</button>
+
+        <!-- Topic 2 -->
+        <h2>2. AI Agents & Environment Types</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">An **AI Agent** is an autonomous entity that perceives its environment through sensors and acts upon it through actuators to achieve goals. Environments are classified as **Deterministic vs. Stochastic**, **Static vs. Dynamic**, and **Observable vs. Partially Observable**.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Simple Reflex:</strong> Acts based on current percept (If-Then rules).</li>
+              <li><strong>Goal-Based:</strong> Considers future consequences of actions.</li>
+              <li><strong>Utility-Based:</strong> Acts to maximize a performance measure (Happiness/Profit).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining a 'Partially Observable' environment. Answer: Where the agent doesn't see the full state (e.g., Poker or Self-driving in fog).</p>
+        </div>
+        <p class="real-world">A **Vacuum Robot** is a reflex agent; a **Trading Bot** is a utility-based agent.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-2', this)">Mark as Read</button>
+
+        <!-- Topic 3 -->
+        <h2>3. Uninformed Search (BFS, DFS, Uniform Cost)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Uninformed Search (Blind Search)** algorithms have no information about the distance to the goal. **BFS (Breadth-First)** explores layer by layer; **DFS (Depth-First)** dives deep into one branch before backtracking.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>BFS:</strong> Guaranteed optimal for unit-cost; high memory (Space \(O(b^d)\)).</li>
+              <li><strong>DFS:</strong> Not optimal; memory-efficient (Space \(O(bd)\)).</li>
+              <li><strong>Uniform Cost:</strong> Expands lowest cumulative cost node; equivalent to Dijkstra's.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Algorithm</th><th>Completeness</th><th>Optimality</th></tr>
+           <tr><td>BFS</td><td>Complete.</td><td>Optimal (unit cost).</td></tr>
+           <tr><td>DFS</td><td>Complete (finite).</td><td>Not Optimal.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why choose DFS? Answer: When memory is tight and paths are very deep but finite.</p>
+        </div>
+        <p class="real-world">Mapping followers of followers on Instagram uses **BFS** to find 'Degrees of Separation'.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-3', this)">Mark as Read</button>
+
+        <!-- Topic 4 -->
+        <h2>4. Informed Search (A*, Greedy Best First)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">**Informed Search** algorithms use a **Heuristic (\(h\))** to estimate the cost to reach the goal. **A* Search** is the most widely used, combining actual cost from start (\(g\)) and heuristic estimate to goal (\(h\)).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>A* Formula:</strong> \(f(n) = g(n) + h(n)\).</li>
+              <li><strong>Admissibility:</strong> A heuristic must never overestimate the cost for A* to be optimal.</li>
+              <li><strong>Greedy BFS:</strong> Only considers \(h(n)\); fast but can get stuck in loops and isn't optimal.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining an 'Admissible Heuristic' (e.g., Straight-line distance is always admissible for road paths).</p>
+        </div>
+        <p class="real-world">Google Maps uses **A*** variants to find the fastest route to your office while avoiding traffic.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-4', this)">Mark as Read</button>
+
+        <!-- Topic 5 -->
+        <h2>5. Adversarial Search (Minimax, Alpha-Beta Pruning)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Algorithms used in competitive multi-agent games. **Minimax** assumes the opponent will play optimally to minimize your score. **Alpha-Beta Pruning** optimizes Minimax by skipping branches that cannot possibly affect the final decision.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Max Node:</strong> Player trying to maximize the score.</li>
+              <li><strong>Min Node:</strong> Opponent trying to minimize the score.</li>
+              <li><strong>Pruning:</strong> Cuts search time in half without changing the final result.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Manual tracing of a game tree to identify where pruning occurs (Alpha vs Beta thresholds).</p>
+        </div>
+        <p class="real-world">Chess AI like Deep Blue uses **Minimax with Alpha-Beta** to look 20 moves ahead in seconds.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-5', this)">Mark as Read</button>
+
+        <!-- Topic 6 -->
+        <h2>6. Knowledge Representation (FOPL, Semantic Nets)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The way AI stores information about the world. **FOPL (First Order Predicate Logic)** uses symbols and quantifiers to represent facts (\(\forall, \exists\)). **Semantic Networks** represent knowledge as a graph of nodes (concepts) and edges (relationships).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>FOPL:</strong> Precise and logical; powerful for inference engines.</li>
+              <li><strong>Semantic Nets:</strong> Intuitive; captures 'ISA' (is-a) and 'HAS' (has-a) relationships.</li>
+              <li><strong>Frames:</strong> Advanced structure where objects have slots/attributes.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Translating English sentences (e.g., 'Every student likes AI') into FOPL notation (\(\forall x [\text{Student}(x) \implies \text{Likes}(x, AI)]\)).</p>
+        </div>
+        <p class="real-world">**Semantic Nets** are the ancestor technology of modern Knowledge Graphs used by Google to show 'Related People'.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-6', this)">Mark as Read</button>
+
+        <!-- Topic 7 -->
+        <h2>7. Forward vs. Backward Chaining</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Inference methods in expert systems. **Forward Chaining** starts with known facts and uses rules to derive new conclusions (Data-driven). **Backward Chaining** starts with a goal/hypothesis and works back to check if facts support it (Goal-driven).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Forward:</strong> If facts A and B are true, find what rules can fire. Good for diagnosis.</li>
+              <li><strong>Backward:</strong> If we want to reach goal Z, find what premises (A, B) must be true. Good for planning.</li>
+           </ul>
+        </div>
+
+        <table class="comparison-table">
+           <tr><th>Feature</th><th>Forward Chaining</th><th>Backward Chaining</th></tr>
+           <tr><td>Logic</td><td>Data-driven.</td><td>Goal-driven.</td></tr>
+           <tr><td>Search</td><td>Breadth-first.</td><td>Depth-first.</td></tr>
+        </table>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Identifying which method a specific AI system uses based on available data.</p>
+        </div>
+        <p class="real-world">An automation system checking 'Is the door locked?' (Goal) uses **Backward Chaining** to verify sensor inputs.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-7', this)">Mark as Read</button>
+
+        <!-- Topic 8 -->
+        <h2>8. Expert Systems</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">AI systems that mimic the decision-making ability of a human expert in a specific domain. They consist of a **Knowledge Base** (facts/rules) and an **Inference Engine** (reasoning logic).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>MYCIN:</strong> Historical medical expert system for blood infections.</li>
+              <li><strong>Logic:</strong> Usually relies on If-Then rules.</li>
+              <li><strong>Limitation:</strong> Can't learn from experience; difficult to update 'Common Sense' knowledge.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why Expert Systems were the dominant AI paradigm in the 1980s before Machine Learning took over.</p>
+        </div>
+        <p class="real-world">A tax 소프트웨어 that asks you 20 questions to determine your refund is a modern **Expert System**.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-8', this)">Mark as Read</button>
+
+        <!-- Topic 9 -->
+        <h2>9. Turing Test & Chinese Room Argument</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Philosophical foundations of intelligence. The **Turing Test** assesses if a machine can behave identically to a human. The **Chinese Room Argument (Searle)** posits that internal symbol manipulation doesn't equal genuine understanding.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Turing:</strong> Operational definition—if it acts smart, it is smart.</li>
+              <li><strong>Chinese Room:</strong> A room can correctly translate Chinese via rules without the person inside knowing Chinese (Syntax \(\neq\) Semantics).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Does an LLM understand code, or is it just a 'Stochastic Parrot'? This relates directly to the Chinese Room.</p>
+        </div>
+        <p class="real-world">Passing a 'Captcha' is a miniature, inverse **Turing Test** used to prove you are NOT an AI.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-9', this)">Mark as Read</button>
+
+        <!-- Topic 10 -->
+        <h2>10. Fuzzy Logic</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A form of logic that deals with approximate reasoning rather than fixed truth. It uses **Degrees of Truth** (values between 0 and 1) instead of absolute binary (True/False).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Linguistic Variables:</strong> Terms like 'Warm', 'Slightly Cold', 'Very Hot'.</li>
+              <li><strong>Fuzzification:</strong> Converting crisp inputs into fuzzy values.</li>
+              <li><strong>Defuzzification:</strong> Converting fuzzy results back into actionable crisp outputs.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Why use Fuzzy Logic for hardware control? Answer: Because physical sensors produce continuous, noisy values better handled with ranges.</p>
+        </div>
+        <p class="real-world">Modern **Washing Machines** use Fuzzy Logic to determine exact water levels based on 'Small, Medium, or Large' load estimates.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-10', this)">Mark as Read</button>
+
+        <!-- Topic 11 -->
+        <h2>11. Genetic Algorithms</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Metaheuristic search algorithms inspired by the process of natural selection. They evolve a population of solutions using **Selection, Crossover (Recombination), and Mutation** to find optimal results.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Fitness Function:</strong> Measures how 'good' a solution is.</li>
+              <li><strong>Survival of Fittest:</strong> Best solutions reproduce to form the next generation.</li>
+              <li><strong>Mutation:</strong> Prevents premature convergence by introducing random diversity.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why GAs are used for 'Global Optimization' where gradient descent might get stuck in local minima.</p>
+        </div>
+        <p class="real-world">Designing the most aerodynamic shape for an airplane wing often uses **Genetic Algorithms** to evolve a design over millions of simulated iterations.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-11', this)">Mark as Read</button>
+
+        <!-- Topic 12 -->
+        <h2>12. Natural Language Processing (NLP) pipeline</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The series of steps used to transform raw text into a machine-readable format. It involves cleaning data and extracting meaningful semantic features.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Lowercasing & Stopword Removal:</strong> Removing 'the', 'is', etc.</li>
+              <li><strong>Stemming/Lemmatization:</strong> Reducing words to roots (e.g., 'Running' -> 'Run').</li>
+              <li><strong>Named Entity Recognition (NER):</strong> Identifying names, dates, and places.</li>
+              <li><strong>POS Tagging:</strong> Identifying Nouns, Verbs, and Adjectives.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Difference between Stemming (Rule-based chopping) and Lemmatization (Dictionary-based root finding).</p>
+        </div>
+        <p class="real-world">Email services use **NLP Pipelines** to summarize your receipts into clear tabular entries in your calendar.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-12', this)">Mark as Read</button>
+
+        <!-- Topic 13 -->
+        <h2>13. Constraint Satisfaction Problems (CSP)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Problems defined by a set of variables, their domains, and a set of constraints that the solution must satisfy. **Backtracking** is the standard algorithmic approach used to solve CSPs.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Components:</strong> Variables, Domains (Possible values), Constraints (Rules).</li>
+              <li><strong>Constraint Propagation:</strong> Pruning the domain of variables based on other assignments (e.g., ARC Consistency).</li>
+              <li><strong>Optimal Solving:</strong> Combining Backtracking with heuristics like 'Minimum Remaining Values'.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Identifying map-coloring or Sudoku as CSPs and explaining how 'Forward Checking' prevents dead-end paths.</p>
+        </div>
+        <p class="real-world">University **Course Scheduling** is a massive CSP that ensures no two classes share the same room and professor at once.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-13', this)">Mark as Read</button>
+
+        <!-- Topic 14 -->
+        <h2>14. Markov Decision Processes (MDP)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">A mathematical framework for modeling decision-making where outcomes are partly random and partly under the control of a decision-maker. It is the foundation of **Reinforcement Learning**.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Tuple \((S, A, P, R, \gamma)\):</strong> State, Action, Probability, Reward, Discount Factor.</li>
+              <li><strong>Markov Property:</strong> The future is independent of the past, given the present.</li>
+              <li><strong>Policy (\(\pi\)):</strong> A mapping from states to actions that maximizes total reward.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining the 'Bellman Equation', which recursively calculates the value of the current state.</p>
+        </div>
+        <p class="real-world">A robot navigating a grid with slippery floors (where move action might fail) is modeled as an **MDP**.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-14', this)">Mark as Read</button>
+
+        <!-- Topic 15 -->
+        <h2>15. Heuristic Functions</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">An estimation function used to guide search algorithms toward the goal node. It represents a 'rule of thumb' or 'common sense' shortcut that helps avoid exploring useless paths.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Admissible:</strong> Never overestimates (required for A* optimality).</li>
+              <li><strong>Consistent:</strong> Follows the triangle inequality (satisfies monotonicity).</li>
+              <li><strong>Examples:</strong> Manhattan Distance (Grid), Euclidean (Direct line), Hamming Distance (Puzzles).</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Designing a heuristic for the '8-Puzzle' problem. Answer: Number of misplaced tiles.</p>
+        </div>
+        <p class="real-world">A delivery driver uses a **Heuristic** of 'Nearest Unvisited Customer' to plan their afternoon route.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-15', this)">Mark as Read</button>
+
+        <!-- Topic 16 -->
+        <h2>16. Hill Climbing & Simulated Annealing</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">Local search optimization algorithms. **Hill Climbing** iteratively moves toward better neighbors but often gets stuck in <strong>Local Maxima</strong>. **Simulated Annealing** allows occasional 'bad' moves to escape local peaks, inspired by physics-based cooling.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Hill Climbing:</strong> Greedy; fast; risk of 'Plateaus' and 'Ridges'.</li>
+              <li><strong>Simulated Annealing:</strong> High temperature = more exploration; Low temperature = strictly better moves.</li>
+              <li><strong>Convergence:</strong> Slow to find the global peak but much more reliable than simple Hill Climbing.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why we allow 'worse' steps in Simulated Annealing. Answer: To escape local optima and find the true Global Maximum.</p>
+        </div>
+        <p class="real-world">Optimizing the layout of components on a circuit board uses **Simulated Annealing** to minimize wire length.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-16', this)">Mark as Read</button>
+
+        <!-- Topic 17 -->
+        <h2>17. Robotics in AI</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The intersection of AI and physical hardware. It involves the integration of **Perception** (Computer Vision, SLAM), **Planning** (A*, Pathfinding), and **Control** (PID, RL) to allow machines to interact with the real world.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>SLAM (Simultaneous Localization and Mapping):</strong> Building a map while moving through it safely.</li>
+              <li><strong>Kinematics:</strong> Mathematical modeling of joint movements (Forward vs Inverse).</li>
+              <li><strong>Sensors:</strong> LiDAR, Ultrasound, Cameras (providing 'Percepts').</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining the 'Sim-to-Real' gap in Reinforcement Learning for robots.</p>
+        </div>
+        <p class="real-world">Warehouse robots like Amazon's **Kiva** use AI to coordinate paths for 1000s of units without colliding.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-17', this)">Mark as Read</button>
+
+        <!-- Topic 18 -->
+        <h2>18. AI Ethics, Bias, and Safety</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The field focused on ensuring AI systems are developed responsibly. It addresses **Algorithmic Bias** (unfair treatments), **Safety** (preventing harmful actions), and **Transparency** (Explainable AI - XAI).</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Dataset Bias:</strong> If training data is flawed (e.g., historical sexism), the AI will replicate it.</li>
+              <li><strong>Alignment Problem:</strong> Ensuring AI goals match human values.</li>
+              <li><strong>Adversarial Attacks:</strong> Tricking AI with subtle, invisible perturbations to input data.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining 'Explainable AI'. Why is it critical for healthcare AI? Answer: Doctors need to know *why* a model diagnosed cancer to trust it.</p>
+        </div>
+        <p class="real-world">Social media algorithms constantly undergo **Ethics Audits** to prevent the accidental promotion of harmful misinformation.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-18', this)">Mark as Read</button>
+
+        <!-- Topic 19 -->
+        <h2>19. Agentic AI (Multi-agent orchestration)</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">An advanced framework where multiple specialized AI agents collaborate to solve a complex task. Unlike a single model, **Agentic AI** involves reasoning, tool-use, and task-delegation between an 'Orchestrator' and 'Workers'.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Reasoning:</strong> Chains of thought (CoT) where agents plan before acting.</li>
+              <li><strong>Tool-Use:</strong> Agents calling APIs (Calculators, Search, Document Readers) to get facts.</li>
+              <li><strong>Multi-Agent:</strong> E.g., One agent researches, one writes, and one fact-checks the first two.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Defining the difference between a simple Chatbot and an **Autonomous Agent**. Answer: Autonomy and step-by-step goal execution.</p>
+        </div>
+        <p class="real-world">A system that reads your email, checks your calendar, books a flight, and confirms your hotel autonomously is **Agentic AI**.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-19', this)">Mark as Read</button>
+
+        <!-- Topic 20 -->
+        <h2>20. Prompt Engineering as an AI tool</h2>
+        <span class="section-label">Technical Definition</span>
+        <p class="definition-box">The practice of optimizing input text (prompts) to guide Generative AI models toward more accurate and useful outputs. It involves techniques like **Few-shot Prompting**, **Chain-of-Thought**, and **System Persona** definition.</p>
+        
+        <span class="section-label">Core Concept</span>
+        <div class="core-concept">
+           <ul>
+              <li><strong>Few-shot:</strong> Providing 2-3 examples within the prompt.</li>
+              <li><strong>Zero-shot:</strong> Asking a question directly without examples.</li>
+              <li><strong>COT (Chain of Thought):</strong> Asking the model to "Think step-by-step" to improve logical reasoning.</li>
+              <li><strong>Technique:</strong> "Act as a [Persona]" significantly changes model tone and constraints.</li>
+           </ul>
+        </div>
+
+        <div class="spotlight">
+           <h5>Interview Spotlight</h5>
+           <p>Focus: Explaining why 'Prompt Engineering' is important for steering model behavior and reducing hallucinations.</p>
+        </div>
+        <p class="real-world">A developer using **Chain-of-Thought** prompting to fix a bug gets a detailed explanation instead of just a code snippet.</p>
+        <button class="complete-btn" onclick="toggleComplete('ai-20', this)">Mark as Read</button>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // ─── REVEAL ON SCROLL ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+
+    function initReveals() {
+      // Apply reveal to topics and content boxes
+      document.querySelectorAll('h2, .definition-box, .comparison-table, .spotlight, .core-concept, .real-world, .tricky-q').forEach(el => {
+        el.classList.add('reveal-base');
+        observer.observe(el);
+      });
+    }
+
+    function showSec(id, el) {
+      document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+
+      document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      target.classList.add('active');
+      
+      initReveals();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Progress Tracking Logic
+    let completedTopics = JSON.parse(localStorage.getItem('completed_topics') || '[]');
+
+    function toggleComplete(id, el) {
+      if (completedTopics.includes(id)) {
+        completedTopics = completedTopics.filter(t => t !== id);
+        el.innerText = "Mark as Read";
+        el.classList.remove('completed');
+      } else {
+        completedTopics.push(id);
+        el.innerText = "Completed ✓";
+        el.classList.add('completed');
+      }
+      localStorage.setItem('completed_topics', JSON.stringify(completedTopics));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = 100; // Total number of topics (20 per subject)
+      const done = completedTopics.length;
+      const pct = Math.round((done / total) * 100);
+      const progText = document.getElementById('overall-prog-text');
+      const progBar = document.getElementById('overall-prog-bar');
+      if (progText) progText.innerText = pct + '%';
+      if (progBar) progBar.style.width = pct + '%';
+      
+      document.querySelectorAll('.complete-btn').forEach(btn => {
+        const idMatch = btn.getAttribute('onclick').match(/'([^']+)'/);
+        if (idMatch) {
+          const tid = idMatch[1];
+          if (completedTopics.includes(tid)) {
+            btn.innerText = "Completed ✓";
+            btn.classList.add('completed');
+          } else {
+            btn.innerText = "Mark as Read";
+            btn.classList.remove('completed');
+          }
+        }
+      });
+    }
+
+    // Initial sync
+    window.addEventListener('DOMContentLoaded', () => {
+       updateProgress();
+       initReveals();
+    });
+  </script>
+
+</body>
+
+</html>

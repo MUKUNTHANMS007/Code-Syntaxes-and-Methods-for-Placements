@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherPrep — Encyclopedic Assessment Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0b0b0f',
+            surface: '#111116',
+            card: '#16161c',
+            border: '#22222e',
+            muted: '#7878a0',
+            faint: '#44445a',
+            accent: '#818cf8',
+            int: '#818cf8',
+            secondary: '#c084fc',
+            success: '#34d399',
+            warning: '#f87171',
+          }
+        }
+      }
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --t: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #0b0b0f;
+      --surface: #111116;
+      --card: #16161c;
+      --border: #22222e;
+      --text: #ededf5;
+      --muted: #7878a0;
+      --int: #818cf8;
+      --secondary: #c084fc;
+      --success: #34d399;
+      --warning: #f87171;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Shared Navigation */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(11, 11, 15, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 1000;
+    }
+
+    .nav-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #fff;
+    }
+
+    /* Quiz Layout */
+    .quiz-container {
+      max-width: 950px;
+      margin: 100px auto 50px;
+      padding: 0 1.5rem;
+    }
+
+    .quiz-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      padding: 4rem;
+      position: relative;
+      box-shadow: 0 30px 80px -20px rgba(0,0,0,0.8);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 2.5rem;
+    }
+
+    .cat-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 2.8rem 1.8rem;
+      border-radius: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .cat-btn:hover {
+      border-color: var(--int);
+      transform: translateY(-10px);
+      box-shadow: 0 18px 40px -10px rgba(129, 140, 248, 0.3);
+      background: rgba(11, 11, 15, 0.9);
+    }
+
+    .cat-btn svg { width: 44px; height: 44px; color: var(--muted); transition: all 0.3s; }
+    .cat-btn:hover svg { color: var(--int); transform: scale(1.1); }
+    .cat-btn h4 { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: -0.5px; }
+    .cat-btn p { font-size: 0.8rem; color: var(--faint); font-weight: 600; }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      margin-bottom: 2.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--int);
+      transition: width 0.5s;
+    }
+
+    .question-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(129, 140, 248, 0.1);
+      border: 1px solid rgba(129, 140, 248, 0.2);
+      border-radius: 24px;
+      font-size: 0.75rem;
+      font-weight: 950;
+      color: var(--int);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .question-text {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.45;
+      margin-bottom: 2rem;
+      letter-spacing: -1.2px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 1.3rem 1.8rem;
+      background: rgba(255,255,255,0.01);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .option-btn:hover { background: rgba(129, 140, 248, 0.05); border-color: var(--faint); color: #fff; transform: translateX(10px); }
+    .option-btn.correct { border-color: var(--success); color: var(--success); background: rgba(52, 211, 153, 0.1); }
+    .option-btn.wrong { border-color: var(--warning); color: var(--warning); background: rgba(248, 113, 113, 0.1); }
+    .option-btn.selected { border-color: var(--int); color: #fff; background: rgba(129, 140, 248, 0.1); }
+
+    .btn-action {
+      padding: 14px 45px;
+      border-radius: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .btn-primary { background: var(--int); color: #fff; box-shadow: 0 10px 40px rgba(129, 140, 248, 0.4); }
+    .btn-primary:hover { background: #717cf0; transform: translateY(-4px); }
+    
+    .highscore { font-size: 0.75rem; color: var(--int); font-weight: 800; margin-top: 8px; opacity: 0.8; }
+
+    .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1; opacity: 0.12; }
+    .orb1 { width: 500px; height: 500px; background: #6366f1; top: 10%; left: 5%; }
+    .orb2 { width: 450px; height: 450px; background: #c084fc; bottom: 10%; right: 5%; }
+  </style>
+</head>
+
+<body>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <nav class="nav-bar">
+    <div class="nav-logo">
+      <div class="logo-icon">Q</div>
+      <span>Aether<span style="color:var(--int)">Prep</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="Webpage.html" class="nav-link">Syntax</a>
+      <a href="Theory.html" class="nav-link">Theory</a>
+      <a href="Quiz.html" class="nav-link active">Quizzes</a>
+    </div>
+  </nav>
+
+  <div class="quiz-container">
+    
+    <!-- CATEGORY SELECTION -->
+    <div id="cat-selection" class="quiz-card text-center">
+      <div class="question-category">ENCYCLOPEDIC ASSESSMENT</div>
+      <h1 class="text-4xl font-black mb-4 text-white">Target Your Specialization</h1>
+      <p class="text-muted mb-12 text-lg">Exhaustive testing with 20 questions per module based on FAANG placement roadmaps.</p>
+      
+      <div class="cat-grid">
+        <div class="cat-btn" onclick="startCat('OS')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <h4>Operating Systems</h4>
+          <p>Thrashing, TLB Math, Peterson's</p>
+        </div>
+        <div class="cat-btn" onclick="startCat('CN')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <h4>Networks</h4>
+          <p>Stuffing, DNS queries, Subnetting</p>
+          <div class="highscore" id="score-CN">Best: 0/20</div>
+        </div>
+        <div class="cat-btn" onclick="startCat('ML')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          <h4>Machine Learning</h4>
+          <p>PCA workflow, LOOCV, Paradigms</p>
+          <div class="highscore" id="score-ML">Best: 0/20</div>
+        </div>
+        <div class="cat-btn" onclick="startCat('DL')">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path><path d="M12 8v4l3 3"></path></svg>
+           <h4>Deep Learning</h4>
+           <p>RMSProp, Xavier Init, Attention</p>
+           <div class="highscore" id="score-DL">Best: 0/20</div>
+        </div>
+        <div class="cat-btn" onclick="startCat('AI')">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
+           <h4>Artif. Intelligence</h4>
+           <p>Minimax, A* Search, Logic</p>
+           <div class="highscore" id="score-AI">Best: 0/20</div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- QUIZ INTERFACE -->
+    <div id="quiz-ui" class="quiz-card" style="display: none;">
+      <div class="progress-bar-wrap">
+        <div id="progress" class="progress-fill"></div>
+      </div>
+      <div id="category" class="question-category">CATEGORY</div>
+      <div id="q-text" class="question-text">Question Loading...</div>
+      <div class="options-grid" id="options"></div>
+      <div class="flex justify-between items-center mt-12 pt-8 border-t border-border">
+         <div id="q-counter" class="text-sm font-black text-faint">1 OF 20</div>
+         <button id="next-btn" onclick="nextQ()" class="btn-action btn-primary" style="display: none;">CONTINUE</button>
+      </div>
+    </div>
+
+    <!-- FINAL RESULTS -->
+    <div id="res-screen" class="quiz-card text-center" style="display: none;">
+       <div class="question-category">ASSESSMENT FINALIZED</div>
+       <h2 class="text-7xl font-black mb-2" id="res-perc">0%</h2>
+       <p class="text-2xl font-bold mb-10 text-muted" id="res-status">Good Effort!</p>
+       <div class="flex gap-4">
+          <button onclick="location.reload()" class="btn-action border border-border w-1/2">Back to Hub</button>
+          <button onclick="window.location.href='Theory.html'" class="btn-action btn-primary w-1/2">Consult Encyclopedia</button>
+       </div>
+    </div>
+
+  </div>
+
+  <script>
+    const QUESTIONS = {
+      OS: [
+        { q: "In the 5-state process model, where is the PCB located in 'Ready' state?", opt: ["Register", "Cache", "Main Memory", "Secondary Memory"], ans: 2 },
+        { q: "Condition for Critical Section: 'Bounded Waiting' ensures what?", opt: ["Mutual Exclusion", "Atomicity", "No Starvation", "Livelock"], ans: 2 },
+        { q: "Peterson's Solution uses which variables for synchronization?", opt: ["Locks", "Pipes", "Flag and Turn", "Signals"], ans: 2 },
+        { q: "Paging vs Segmentation: Which one suffers from External Fragmentation?", opt: ["Paging", "Segmentation", "Both", "None"], ans: 1 },
+        { q: "Effective Access Time (EAT) with TLB calculation requires?", opt: ["Hit Ratio", "CPU Speed", "Page Size", "Disk IO"], ans: 0 },
+        { q: "Thrashing is caused primarily by?", opt: ["Fast CPU", "Lack of Disk Space", "Excessive Page Faults", "Deadlock"], ans: 2 },
+        { q: "Which scheduler chooses processes to be brought into main memory?", opt: ["Short term", "Medium term", "Long term", "Dispatcher"], ans: 2 },
+        { q: "Wait-for Graph is used in?", opt: ["Deadlock Avoidance", "Deadlock Prevention", "Deadlock Detection", "Resource Allocation"], ans: 2 },
+        { q: "Belady's Anomaly can occur in which algorithm?", opt: ["LRU", "Optimal", "FIFO", "MRU"], ans: 2 },
+        { q: "Which CPU scheduling is non-preemptive?", opt: ["RR", "STRF", "FCFS", "Priority"], ans: 2 },
+        { q: "Working Set Model is a solution to?", opt: ["Fragmentation", "Deadlock", "Thrashing", "Wait time"], ans: 2 },
+        { q: "RAID Level providing mirroring?", opt: ["0", "1", "5", "6"], ans: 1 },
+        { q: "B-Tree indexing in OS file systems minimizes?", opt: ["RAM Usage", "Disk Access", "CPU Cycles", "Latency"], ans: 1 },
+        { q: "A Binary Semaphore is also known as?", opt: ["Process", "Monitor", "Mutex", "Pipe"], ans: 2 },
+        { q: "Context Switching overhead is avoided by using?", opt: ["Processes", "Threads", "Signals", "Interrupts"], ans: 1 },
+        { q: "Translation Lookaside Buffer (TLB) is located in?", opt: ["MMU", "Hard Disk", "ALU", "L3 Cache"], ans: 0 },
+        { q: "Segmentation with Paging solves which problem?", opt: ["Internal Frag", "External Frag", "Thrashing", "Paging limit"], ans: 1 },
+        { q: "The state after admitting a process is?", opt: ["Running", "Ready", "New", "Blocked"], ans: 1 },
+        { q: "Deadlock: Mutex means?", opt: ["Circular wait", "Hold/Wait", "Mutual Exclusion", "No Preemption"], ans: 2 },
+        { q: "Scheduling: SSTF stands for?", opt: ["Shortest Seek Time First", "Shortest Service Time First", "Sequential Swap Time First", "Shortest System Task First"], ans: 0 }
+      ],
+      AI: [
+        { q: "Which search is complete but not optimal for non-unit costs?", opt: ["BFS", "DFS", "Uniform Cost", "A*"], ans: 0 },
+        { q: "In A* Search, if h(n) is always 0, it becomes?", opt: ["BFS", "Dijkstra's", "DFS", "Greedy BFS"], ans: 1 },
+        { q: "Alpha-Beta Pruning: A move is pruned if?", opt: ["Alpha >= Beta", "Alpha < Beta", "Alpha = 0", "Beta = 1"], ans: 0 },
+        { q: "First Order Logic (FOL): '∀' is called?", opt: ["Existential", "Universal", "Predicate", "Modal"], ans: 1 },
+        { q: "Uninformed Search: Space complexity of BFS with branching 'b' and depth 'd'?", opt: ["O(bd)", "O(b^d)", "O(d^b)", "O(b+d)"], ans: 1 },
+        { q: "Expert Systems: Which engine part handles reasoning?", opt: ["Knowledge Base", "User Interface", "Inference Engine", "Buffer"], ans: 2 },
+        { q: "Turing Test evaluates if a machine acts like a?", opt: ["Robot", "Human", "Computer", "Calculator"], ans: 1 },
+        { q: "Chinese Room Argument targets which AI concept?", opt: ["Processing Power", "Genuine Understanding", "Speed", "Search"], ans: 1 },
+        { q: "Fuzzy Logic: Membership values range from?", opt: ["-1 to 1", "0 to 1", "0 to 100", "0 or 1 only"], ans: 1 },
+        { q: "Heuristic: Manhattan Distance is used for which movement?", opt: ["Diagonals allowed", "4-way (Up/Down/Left/Right)", "Direct line", "Circular"], ans: 1 },
+        { q: "Constraint Satisfaction: Sudoku is a classic example of?", opt: ["Uninformed Search", "CSP", "Expert System", "Minimax"], ans: 1 },
+        { q: "Agent Environment: A game of Poker is?", opt: ["Observable", "Partially Observable", "Static", "Deterministic"], ans: 1 },
+        { q: "Forward Chaining is also called?", opt: ["Goal-driven", "Data-driven", "Search-driven", "Logic-driven"], ans: 1 },
+        { q: "Minimax: The opponent is assumed to be?", opt: ["Random", "Optimal", "Sub-optimal", "Heuristic-based"], ans: 1 },
+        { q: "Genetic Algorithms: Which step introduces random variety?", opt: ["Selection", "Crossover", "Mutation", "Fitness"], ans: 2 },
+        { q: "Hill Climbing problem: Stuck at a peak that isn't the highest?", opt: ["Plateau", "Ridge", "Local Maximum", "Valley"], ans: 2 },
+        { q: "Agent Type: Maximizes happiness or performance?", opt: ["Goal-based", "Utility-based", "Model-based", "Simple Reflex"], ans: 1 },
+        { q: "Robotics: SLAM stands for?", opt: ["Static Local Map", "Simultaneous Localization and Mapping", "Search Logic and Math", "System Level Auto Map"], ans: 1 },
+        { q: "Semantic Networks represent knowledge as?", opt: ["Matrices", "If-Then Rules", "Graphs (Nodes/Edges)", "Tensors"], ans: 2 },
+        { q: "Prompt Engineering: COT stands for?", opt: ["Chain of Thought", "Condition of Text", "Context of Truth", "Check of Tool"], ans: 0 }
+      ],
+      CN: [
+        { q: "Physical Media: Which guided media uses Total Internal Reflection?", opt: ["Twisted Pair", "Coaxial", "Fiber Optic", "Microwave"], ans: 2 },
+        { q: "Framing: Inserting a bit '0' after five '1's is?", opt: ["Bit Stuffing", "Byte Stuffing", "Parity", "Hamming"], ans: 0 },
+        { q: "Math: Formula for usable hosts per subnet is?", opt: ["2^n", "2^n + 2", "2^n - 2", "2^n * 2"], ans: 2 },
+        { q: "DNS Query: Client asks server to return full answer?", opt: ["Iterative", "Recursive", "Standard", "Static"], ans: 1 },
+        { q: "SMTP primarily handles?", opt: ["Downloading", "Synchronizing", "Sending", "Routing"], ans: 2 },
+        { q: "Unguided Media: Which one uses omnidirectional waves?", opt: ["Radio", "Microwave", "Infrared", "Laser"], ans: 0 },
+        { q: "Hamming Code: Parity bits are placed at?", opt: ["Beginning", "End", "Powers of 2", "Sequential"], ans: 2 },
+        { q: "Layer responsible for Process-to-Process delivery?", opt: ["Network", "Transport", "Data Link", "Session"], ans: 1 },
+        { q: "Congestion Control: Window that grows linearly is?", opt: ["Slow Start", "Avoidance", "Fast Recovery", "Handshake"], ans: 1 },
+        { q: "IPv4 Header checksum length?", opt: ["8 bit", "16 bit", "32 bit", "64 bit"], ans: 1 },
+        { q: "Byte Stuffing uses which character to bypass flags?", opt: ["Flag", "Escape", "Start", "End"], ans: 1 },
+        { q: "Subnetting /26 gives how many hosts per subnet?", opt: ["254", "126", "62", "30"], ans: 2 },
+        { q: "Protocols: IMAP vs POP3. Which allows multi-device sync?", opt: ["POP3", "IMAP", "SMTP", "UDP"], ans: 1 },
+        { q: "TCP 3-way handshake: Final step packet is?", opt: ["SYN", "ACK", "SYN-ACK", "FIN"], ans: 1 },
+        { q: "CRC (Cyclic Redundancy) uses which division?", opt: ["Modulo-10", "Modulo-2", "Modulo-16", "Binary"], ans: 1 },
+        { q: "Layer 4 Addressing uses?", opt: ["IP Address", "MAC Address", "Port Number", "URL"], ans: 2 },
+        { q: "Dijkstra Algorithm computes?", opt: ["Routing Table", "Shortest Path", "Error", "Checksum"], ans: 1 },
+        { q: "IPv4: TTL ensures packets don't?", opt: ["Fragment", "Loop infinitely", "Get hacked", "Lag"], ans: 1 },
+        { q: "Sliding Window: Go-Back-N (GBN) sender window size?", opt: ["1", "Unlimited", "N", "Dynamic"], ans: 2 },
+        { q: "DNS: TLD stands for?", opt: ["Total Local DNS", "Top Level Domain", "Type Limited Data", "Time Line Domain"], ans: 1 }
+      ],
+      ML: [
+        { q: "Cross-Validation: Leave-One-Out (LOOCV) is a case of?", opt: ["K-Fold", "Hold-out", "N-Fold", "Linear"], ans: 0 },
+        { q: "PCA Math: Which one defines the principal component directions?", opt: ["Eigenvalues", "Mean", "Eigenvectors", "Variance"], ans: 2 },
+        { q: "Learning Paradigm: Learning moves/rewards is?", opt: ["Supervised", "Unsupervised", "Reinforcement", "Deep"], ans: 2 },
+        { q: "F1 Score is the harmonic mean of?", opt: ["Loss/Acc", "Bias/Var", "Precision/Recall", "ROC/AUC"], ans: 2 },
+        { q: "Information Gain uses which impurity formula?", opt: ["Gini", "Entropy", "Standard Deviation", "Log Loss"], ans: 1 },
+        { q: "Regularization: L1 is also called?", opt: ["Ridge", "Lasso", "Elastic", "Dropout"], ans: 1 },
+        { q: "Bias-Variance: High Variance leads to?", opt: ["Underfitting", "Overfitting", "Stability", "Convergence"], ans: 1 },
+        { q: "ROC-AUC: AUC 0.5 means?", opt: ["Perfect", "Failure", "No discriminatory power", "Binary"], ans: 2 },
+        { q: "Dimensionality Reduction technique using Covariance?", opt: ["KNN", "PCA", "SVM", "Decision Tree"], ans: 1 },
+        { q: "K-Fold Stratified ensures?", opt: ["Speed", "Class distribution balance", "Memory save", "Linearity"], ans: 1 },
+        { q: "Decision Tree: CART algorithm uses which measure?", opt: ["Entropy", "Gini", "Information Gain", "p-value"], ans: 1 },
+        { q: "Unsupervised learning algorithm for dimensionality?", opt: ["Linear Reg", "PCA", "Log Reg", "ANN"], ans: 1 },
+        { q: "Metrics: Precision focuses on minimizing?", opt: ["False Positives", "False Negatives", "Both", "Training Loss"], ans: 0 },
+        { q: "SVM: Kernel mapping to higher dim is?", opt: ["Kernel Hook", "Kernel Snap", "Kernel Trick", "Hyper mapping"], ans: 2 },
+        { q: "Supervised: Discrete target output task is?", opt: ["Regression", "Clustering", "Classification", "Attention"], ans: 2 },
+        { q: "Validation: Train/Test split is called?", opt: ["Hold-out", "Fold", "Leave one out", "N-Split"], ans: 0 },
+        { q: "Bias: Errors due to simple assumptions lead to?", opt: ["Overfitting", "Underfitting", "Noise", "Bias"], ans: 1 },
+        { q: "Metric for Regression performance?", opt: ["Accuracy", "F1 Score", "MSE / R-Squared", "Recall"], ans: 2 },
+        { q: "K-Means: Determining K by finding the bend is?", opt: ["Knee Method", "Curvature", "Elbow Method", "Arm Method"], ans: 2 },
+        { q: "Reinforcement: Agent learns from?", opt: ["Labels", "Unlabeled Cluster", "State-Action Reward", "Backprop"], ans: 2 }
+      ],
+      DL: [
+        { q: "Weight Init: Which is optimized for ReLU?", opt: ["Zero", "Xavier", "He Initialization", "Random Small"], ans: 2 },
+        { q: "Optimizers: RMSProp fixes which problem in AdaGrad?", opt: ["Overfitting", "Aggressive Learning Decay", "Bias", "Underfitting"], ans: 1 },
+        { q: "Architectures: ResNet solves vanishing gradient via?", opt: ["ReLU", "Dropout", "Residual Skip Connections", "Adam"], ans: 2 },
+        { q: "Gradient Solution: Setting max threshold is?", opt: ["Batch Norm", "Clipping", "Xavier", "Dropout"], ans: 1 },
+        { q: "Attention: 'Query, Key, Value' vectors belong to?", opt: ["CNN", "RNN", "Transformers", "MLP"], ans: 2 },
+        { q: "Batch Normalization ensures outputs have?", opt: ["Max variance", "Zero mean & Unit Variance", "Random spread", "Linearity"], ans: 1 },
+        { q: "Vanishing gradient occurs when using?", opt: ["ReLU", "Sigmoid / Tanh", "Linear", "Step"], ans: 1 },
+        { q: "Adam optimizer combines RMSProp and?", opt: ["Zero Init", "Momentum", "Backward pass", "ReLU"], ans: 1 },
+        { q: "Architecture: CNN layer that performs feature reuse?", opt: ["LeNet", "ResNet", "DenseNet", "VGG"], ans: 2 },
+        { q: "Activation Range: Tanh outputs between?", opt: ["0 to 1", "-1 to 1", "0 to Inf", "Random"], ans: 1 },
+        { q: "Backward pass uses which calculus rule?", opt: ["Product Rule", "Sum Rule", "Chain Rule", "Log Rule"], ans: 2 },
+        { q: "Exploding Gradient leads to?", opt: ["Fast training", "Stable weights", "Unstable/Large updates", "Underfitting"], ans: 2 },
+        { q: "CNN: Layer that filters local spatial features?", opt: ["Pooling", "Dense", "Convolutional", "Input"], ans: 2 },
+        { q: "He Initialization: Corrects for?", opt: ["Dead ReLU", "Sigmoid Saturation", "Variance half-loss", "High LR"], ans: 2 },
+        { q: "LSTM Gating: Which decides what to keep from current input?", opt: ["Forget Gate", "Input Gate", "Output Gate", "Decision Gate"], ans: 1 },
+        { q: "Transformer: Self-Attention calculates context in?", opt: ["Serial", "Parallel", "Recursive", "Iterative"], ans: 1 },
+        { q: "Optimizer: AdaGrad adapts learning rate per?", opt: ["Layer", "Parameter", "Epoch", "Batch"], ans: 1 },
+        { q: "CNN: AlexNet introduced high depth with which activation?", opt: ["Sigmoid", "ReLU", "Tanh", "Linear"], ans: 1 },
+        { q: "Gradient Clipping prevents which problem?", opt: ["Vanishing", "Exploding", "Memory Leak", "Dropout"], ans: 1 },
+        { q: "Final Softmax layer in CNN is for?", opt: ["Feature Extraction", "Probability Distribution", "Edge Detection", "Batch Norm"], ans: 1 }
+      ]
+    };
+
+    let activeQNodes = [];
+    let curCat = '';
+    let curNodeIdx = 0;
+    let quizScore = 0;
+    let lockSet = false;
+
+    // Load Highscores
+    function updateLeaderboard() {
+      ['OS', 'CN', 'ML', 'DL', 'AI'].forEach(c => {
+        const score = localStorage.getItem('score_' + c) || 0;
+        const el = document.getElementById('score-' + c);
+        if(el) el.innerText = `Best: ${score}/20`;
+      });
+    }
+    updateLeaderboard();
+
+    function startCat(cat) {
+      activeQNodes = QUESTIONS[cat];
+      curCat = cat;
+      curNodeIdx = 0; quizScore = 0;
+      document.getElementById('cat-selection').style.display = 'none';
+      document.getElementById('quiz-ui').style.display = 'block';
+      document.getElementById('category').innerText = cat;
+      loadEnQ();
+    }
+
+    function loadEnQ() {
+      lockSet = false;
+      document.getElementById('next-btn').style.display = 'none';
+      const dq = activeQNodes[curNodeIdx];
+      document.getElementById('q-text').innerText = dq.q;
+      document.getElementById('q-counter').innerText = `${curNodeIdx + 1} OF ${activeQNodes.length}`;
+      
+      const px = (curNodeIdx / activeQNodes.length) * 100;
+      document.getElementById('progress').style.width = px + '%';
+
+      const box = document.getElementById('options');
+      box.innerHTML = '';
+      
+      dq.opt.forEach((val, i) => {
+        const btnNode = document.createElement('button');
+        btnNode.className = 'option-btn';
+        btnNode.innerHTML = `<div class="opt-idx">${String.fromCharCode(64+i+1)}</div><span>${val}</span>`;
+        btnNode.onclick = () => evalNode(i, btnNode);
+        box.appendChild(btnNode);
+      });
+    }
+
+    function evalNode(idx, target) {
+      if (lockSet) return;
+      lockSet = true;
+      const q = activeQNodes[curNodeIdx];
+      const items = document.querySelectorAll('.option-btn');
+      
+      if (idx === q.ans) {
+        target.classList.add('correct');
+        quizScore++;
+      } else {
+        target.classList.add('wrong');
+        items[q.ans].classList.add('correct');
+      }
+      document.getElementById('next-btn').style.display = 'inline-block';
+    }
+
+    function nextQ() {
+      curNodeIdx++;
+      if (curNodeIdx < activeQNodes.length) loadEnQ();
+      else showFin();
+    }
+
+    function showFin() {
+      document.getElementById('quiz-ui').style.display = 'none';
+      document.getElementById('res-screen').style.display = 'block';
+      const pct = Math.round((quizScore / activeQNodes.length) * 100);
+      document.getElementById('res-perc').innerText = pct + '%';
+      document.getElementById('progress').style.width = '100%';
+      document.getElementById('res-status').innerText = pct >= 80 ? "PLACEMENT MASTER" : pct >= 50 ? "Solid Foundation" : "Retest Advised";
+      
+      // Save Highscore
+      const prev = localStorage.getItem('score_' + curCat) || 0;
+      if(quizScore > prev) {
+         localStorage.setItem('score_' + curCat, quizScore);
+      }
+      updateLeaderboard();
+    }
+  </script>
+
+</body>
+
+</html>
