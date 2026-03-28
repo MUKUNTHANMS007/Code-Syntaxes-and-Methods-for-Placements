@@ -110,6 +110,14 @@
       color: #fff;
     }
 
+    /* Mobile Header Optimization */
+    @media (max-width: 640px) {
+      .nav-bar { padding: 0 1rem; }
+      .nav-logo span { display: none; } /* Show only icon on small mobile */
+      .nav-links { gap: 1.25rem; }
+      .nav-link { font-size: 0.75rem; letter-spacing: 0.5px; }
+    }
+
     /* Layout */
     .main-container {
       display: grid;
